@@ -1,0 +1,46 @@
+p {
+                display:inline;
+            }
+            nav#titlebar {
+                background-color:green;
+                color:white;
+                height:4%
+
+            }
+
+            body {
+                margin-top:5px;
+            }
+            aside#sidebar {
+                width:10%;
+                float:right;
+                margin-top:1%;
+                height:100%;
+                margin-right:1%;
+                background-color:lightblue;
+                /*display:flex;*/
+
+
+            }
+            .indent1 {
+                text-indent:25px;
+            }
+            .indent2 {
+                margin-left:50px;
+            }
+            .year {
+                /*margin-right:4px;*/
+            }
+            .title-link {
+                color:white;
+            }
+            .title-link:hover {
+                text-decoration:none;
+                color:white;
+            }
+            .content {
+                margin-top:3%;
+
+            }
+
+
