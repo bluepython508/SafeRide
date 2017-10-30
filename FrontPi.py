@@ -24,7 +24,8 @@ def exitLoop():
 def finishRide(args):
     subprocess.run("wifi", "connect", "--ad-hoc", args.ssid, shell=True) # Connect to WiFi
     subprocess.run(
-        "scp", "-r", args.output_dir, "video@{host}:{location}/{pi}".format(host=args.server, location=args.output_dir,
+        "scp", "-r", args.output_dir, "video@{host}:{location}/{pi}".format(host=args.server,
+                                                                            location=DEFAULT_OUTPUT_DIR,
                                                                             pi=os.path.basename(
                                                                                 __file__
                                                                             ).split(

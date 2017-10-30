@@ -9,7 +9,7 @@ import os.path
 import requests
 
 DEFAULT_FLAG_TIME = 60
-DEFAULT_OUTPUT_DIR = "/home/pi/SafetyVideo"
+DEFAULT_OUTPUT_DIR = "/home/video/SafetyVideo"
 DEFAULT_WIFI_SSID = "SafeRideNetwork"
 DEFAULT_SERVER_HOSTNAME = "saferide.local"
 
@@ -28,8 +28,9 @@ def finishRide(args, finish_output):
     finish_output.off()
     subprocess.run("wifi", "connect", "--ad-hoc", args.ssid, shell=True) # Connect to WiFi
     subprocess.run(
-        "scp", "-r", args.output_dir, "video@{host}:{location}/{pi}".format(host=args.server, location=args.output_dir,
-                                                                            pi=os.path.basename(
+        "scp", "-r", args.output_dir,
+        "video@{host}:{location}/{pi}".format(host=args.server, location=DEFAULT_OUTPUT_DIR,
+                                              pi=os.path.basename(
                                                                                 __file__
                                                                             ).split(
                                                                                 '.'
