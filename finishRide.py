@@ -26,7 +26,7 @@ def main():
     if not alpr.is_loaded():
         raise AlprError('Couldn\'t load OpenALPR.')
     for pi in ('/home/video/SafetyVideo/SidePi', '/home/video/SafetyVideo/FrontPi'):
-        videos = listdir(pi)
+        videos = listdir(pi) + listdir(o)
         for video in videos:
             with closing(VideoSequence(video)) as sequence:
                 oldlicense = None

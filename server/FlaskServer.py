@@ -10,9 +10,9 @@ def files(filename):
         return file.read()
 
 
-@app.route('/videos/<year>/<month>/<day>/<time>')
-def video(year, month, day, time):
-    with open('/mnt/%s/%s/%s/%s' % (year, month, day, time), 'rb') as file:
+@app.route('/videos/<year>/<month>/<day>/<time>/<pi>')
+def video(year, month, day, time, pi):
+    with open('/mnt/%s/%s/%s/%s/%s.h264' % (year, month, day, pi, time), 'rb') as file:
         return file.read()
 
 
