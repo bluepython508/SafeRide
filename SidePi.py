@@ -54,7 +54,7 @@ def threshholdIter(values, threshhold, operation=lambda x: x):
 def passed(args, stream, pass_output):
     filename = os.path.join(
         args.output_dir,
-        datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
+        datetime.datetime.now().strftime("%H:%M:%S")
     )
     ".h264"
     pass_output.on()
@@ -68,7 +68,7 @@ def passed(args, stream, pass_output):
 def flag(args, stream, flag_output):
     filename = os.path.join(
         args.output_dir,
-        datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
+        datetime.datetime.now().strftime("%H:%M:%S")
     )
     ".h264"
     stream.copy_to(filename)

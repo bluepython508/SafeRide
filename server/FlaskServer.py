@@ -10,9 +10,9 @@ def files(filename):
         return file.read()
 
 
-@app.route('/videos/<date>/<time>')
-def video(date, time):
-    with open('/mnt/RideDrive/%s/%s' % (date, time), 'rb') as file:
+@app.route('/videos/<year>/<month>/<day>/<time>')
+def video(year, month, day, time):
+    with open('/mnt/%s/%s/%s/%s' % (year, month, day, time), 'rb') as file:
         return file.read()
 
 
@@ -111,8 +111,103 @@ def index():
                                {'plate': '10-D-45163', 'page': '/'},
                                {'plate': '10-D-45163', 'page': '/'},
                                {'plate': '10-D-45163', 'page': '/'},
-                               {'plate': '10-D-45163', 'page': '/'}
-                            ])
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+
+                           ], ride='2017/10/30')
 
 
 @app.route('/rideDone')
@@ -132,4 +227,4 @@ def stylesheet():
         return style.read()
 
 
-app.run(debug=True, host='127.0.0.1', port=5000)
+app.run(debug=True, host='127.0.0.1', port=8080)
