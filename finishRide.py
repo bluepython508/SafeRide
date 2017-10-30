@@ -2,18 +2,22 @@ from openalpr import Alpr
 from contextlib import closing
 from videosequence import VideoSequence
 from os import listdir, makedirs
-from os.path import exists
+# from os.path import exists
 import shelve
 import datetime
-import time
+# import time
+from shutil import copytree
 
 class AlprError(Exception):
     pass
 
 
 def main():
-    ride = datetime.datetime.now().strftime('/mnt/%Y/%m/%d-%H')
+    ride = datetime.datetime.now().strftime('/mnt/%Y/%m/%d-%H/')
     makedirs(ride, exist_ok=True)
+    copytree('/home/video/SafetyVideo', ride)
+    shelf = shelve.open(ride + 'data')
+    shelf['licenses'] = {}
     alpr = Alpr('eu', '/etc/openalpr/openalpr.conf', '/usr/share/openalpr/runtime_data')
     if not alpr.is_loaded():
         raise AlprError('Couldn\'t load OpenALPR.')
@@ -24,12 +28,13 @@ def main():
                 oldlicense = None
                 for frame in sequence:
                     try:
-                        license = alpr.recognise_ndarray(frame.to_array())['results'][0]['candidates']['plate']
+                        plate = alpr.recognise_ndarray(frame.to_array())['results'][0]['candidates']['plate']
                     except:
-                        license = ''
-                    if not license == oldlicense:
+                        plate = ''
+                    if not plate == oldlicense:
+                        shelf['licenses'][video] = plate
                         break
-                    oldlicense = license
+                    oldlicense = plate
 
 
 
