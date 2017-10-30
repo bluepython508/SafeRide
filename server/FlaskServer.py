@@ -40,7 +40,7 @@ def index():
                                "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
                                        {"href": "/", "date": "7th"}],
                             },
-                            years=[
+                           years=[
                                 {'display':2016, 'months':["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                                  'rides':{"Jan": [{"href": "/", "date": "8th"}],
                                "Feb": [{"href": "/", "date": "7th"}],
@@ -103,6 +103,15 @@ def index():
                                            "Nov": [{"href": "/", "date": "7th"}],
                                            "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
                                                    {"href": "/", "date": "7th"}], }}
+                           ],
+                           incidents=[
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'},
+                               {'plate': '10-D-45163', 'page': '/'}
                             ])
 
 

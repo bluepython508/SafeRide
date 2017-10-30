@@ -16,7 +16,11 @@ def main():
     ride = datetime.datetime.now().strftime('/mnt/%Y/%m/%d-%H/')
     makedirs(ride, exist_ok=True)
     copytree('/home/video/SafetyVideo', ride)
-    shelf = shelve.open(ride + 'data')
+    shelf = shelve.open(ride + 'data', writeback=True)
+    mainshelf = shelve.open('/mnt/data', writeback=True)
+    mainshelf['rides'].append(ride.replace('/mnt/', ''))
+    mainshelf.sync()
+    mainshelf.close()
     shelf['licenses'] = {}
     alpr = Alpr('eu', '/etc/openalpr/openalpr.conf', '/usr/share/openalpr/runtime_data')
     if not alpr.is_loaded():
@@ -36,7 +40,8 @@ def main():
                         break
                     oldlicense = plate
 
-
+    shelf.sync()
+    shelf.close()
 
 if __name__ == "__main__":
     main()
