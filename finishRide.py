@@ -40,7 +40,7 @@ def main():
                 except:
                     plate = ''
                 if not plate == oldlicense:
-                    shelf['licenses'][video.replace('.h264', '')] = plate
+                    shelf['licenses'][ride + video.replace('.h264', '')] = plate
                     break
                 oldlicense = plate
 

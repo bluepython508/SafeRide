@@ -16,6 +16,12 @@ def video(year, month, day, time, pi):
         return file.read()
 
 
+@app.route('/incidents/<path: ride>/<incident>')
+def incident(ride, incident):
+    videos = '/mnt/' + ride + '/' + incident
+
+
+
 @app.route('/ride/<date>')
 def ride(date):
     return render_template('ride.html', date=date)
