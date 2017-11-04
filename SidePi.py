@@ -26,7 +26,7 @@ def finishRide(args, finish_output):
     finish_output.on()
     time.sleep(0.01)
     finish_output.off()
-    subprocess.run("wifi", "connect", "--ad-hoc", args.ssid, shell=True) # Connect to WiFi
+    subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
     subprocess.run(
         "scp", "-r", args.output_dir,
         "video@{host}:{location}/{pi}".format(host=args.server, location=DEFAULT_OUTPUT_DIR,
@@ -35,9 +35,9 @@ def finishRide(args, finish_output):
                                                                             ).split(
                                                                                 '.'
                                                                             )[0]),
-        shell=True) # Copy video over to a unique filename
+        shell=True)  # Copy video over to a unique filename
     requests.get('%s/rideDone' % args.server)
-    subprocess.run("sudo", "poweroff") # Shutdown
+    subprocess.run("sudo", "poweroff")  # Shutdown
 
 def getDistance(val):
     mv = (val * 5) * 1000  # 0-1 x5-> 0-5 Volts -> x1000 = mV

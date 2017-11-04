@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>SafeRide</title>
+    <style>
+            p {
+                display:inline;
+            }
+            nav#titlebar {
+                background-color:green;
+                color:white;
+                height:4%
+
+            }
+            html {
+                height:100vh;
+                width:100wh;
+                max-width:100%
+                x-overflow:hidden !important;
+
+            }
+            body {
+                margin-top:5px;
+                height:100wh;
+                max-width:100%;
+                width:100%
+                x-overflow:hidden !important;
+            }
+            div.sidebar {
+                width:10%;
+                height:100%;
+
+                right:0px;
+                top:4.01%;
+                position:fixed;
+                background-color:lightblue;
+                z-index:0
+
+
+
+            }
+            details {
+
+            }
+            .indent1 {
+                text-indent:25px;
+            }
+            .indent2 {
+                margin-left:50px;
+            }
+            .year {
+
+            }
+            .title-link {
+                color:white;
+            }
+            .title-link:hover {
+                text-decoration:none;
+                color:white;
+            }
+            .content {
+                margin-top:3%;
+                text-align:left;
+
+            }
+
+            a:hover {
+                text-decoration:none;
+            }
+            
+            .scrollablenav {
+                overflow-y:auto;
+                height:100%;
+            }
+        {% block style %}
+        {% endblock style %}
+
+    </style>
+
+</head>
+<body class="col-12">
+
+{% block titlebar %}
+<nav id="titlebar" class="navbar navbar-expand-md fixed-top nav-dark bg-dark">
+    <!--<img src="/favicon.ico" width="30" height="30">-->
+    <a href="/" class="title-link navbar-brand"><h5><img src="/files/saferide.png" alt="SafeRide"></h5></a>
+    <a href="/" class="title-link nav-link">Latest Ride</a>
+
+
+</nav>
+{% endblock %}
+{% block sidebar %}
+
+<div class="container col-12 sidebar" id="sidebar">
+    <div class="scrollablenav">
+        <details open>
+            <summary class="year">{{ curyear }}</summary>
+            {% for month in months %}
+            <details>
+                <summary class="indent1">{{ month }}</summary>
+                {% for ride in rides[month] %}
+                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
+                                {% if rides[month].__len__() > 1 %}
+                                    <br>
+                                {% endif %}
+                                </span>
+                {% endfor %}
+            </details>
+            {% endfor %}
+        </details>
+        {% for year in years %}
+        <details>
+            <summary>{{ year['display'] }}</summary>
+            {% for month in year['months'] %}
+            <details>
+                <summary class="indent1">{{ month }}</summary>
+                {% for ride in year['rides'][month] %}
+                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
+                                        {% if year['rides'][month].__len__() > 1 %}
+                                            <br>
+                                        {% endif %}
+                                        </span>
+                {% endfor %}
+            </details>
+            {% endfor %}
+        </details>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
+<div class="content container-fluid">
+    {% block content %}
+    <pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </pre>
+    {% endblock content %}
+</div>
+</body>
+</html>

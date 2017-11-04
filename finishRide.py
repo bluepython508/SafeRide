@@ -1,8 +1,8 @@
 from openalpr import Alpr
 from contextlib import closing
 from videosequence import VideoSequence
-from os import listdir, makedirs
-# from os.path import exists
+from os import listdir, makedirs, symlink, unlink
+from os.path import exists
 import shelve
 import datetime
 # import time
@@ -26,7 +26,10 @@ def main():
     mainshelf['rides'].append(ride.replace('/mnt/', ''))
     mainshelf.sync()
     mainshelf.close()
-    shelf['licenses'] = {}
+    shelf['incidents'] = []
+    if exists('/mnt/latest'):
+        unlink('/mnt/latest')
+    symlink(ride, '/mnt/latest')
     alpr = Alpr('eu', '/etc/openalpr/openalpr.conf', '/usr/share/openalpr/runtime_data')
     if not alpr.is_loaded():
         raise AlprError('Couldn\'t load OpenALPR.')
@@ -40,7 +43,8 @@ def main():
                 except:
                     plate = ''
                 if not plate == oldlicense:
-                    shelf['licenses'][ride + video.replace('.h264', '')] = plate
+                    shelf['incidents'].append(
+                        {'page': ride.replace('/mnt', '') + video.replace('.h264', ''), 'plate': plate})
                     break
                 oldlicense = plate
 

@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+{% block style %}
+td a.invisible-link {
+display:block;
+color:black;
+}
+td a.invisible-link:hover {
+color:black;
+}
+table {
+width:50%;
+}
+tr {
+border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {background-color: #ddd}
+
+tr.row:hover {
+background-color: #bbb;
+}
+
+tr#header {
+background-color:#fff;
+}
+{% endblock style %}
+{% block content %}
+<h3>Ride from {{ ride }}</h3>
+<table>
+    <tr>
+        <th>License</th>
+        <th>Video page</th>
+    </tr>
+    {% for incident in incidents %}
+    <tr>
+        <td class="plate-cell"><a href="{{ incident['page'] }}" class="plate invisible-link">{{ incident['plate'] }}</a>
+        </td>
+        <td><a href="{{ incident['page'] }}"><span>{{ incident['page'] }}</span></a></td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock content%}

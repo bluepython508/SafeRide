@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block style %}
+.front {
+float:left;
+}
+.side {
+float:right;
+}
+{% endblock %}
+{% block content %}
+<video controls preload="metadata" class="front">
+    <source src="{{ video['front'] }}"/>
+    I'm sorry, but your browser does not support embedded video. You can download it below, though.
+</video>
+<video controls preload="metadata" class="side">
+    <source src="{{ video['side'] }}"/>
+    I'm sorry, but your browser does not support embedded video. You can download it below, though.
+</video>
+<a href="{{video['front']}}" class="front">Download front video</a>
+<a href="{{video['side']}}" class="side">Download side video</a>
+{% endblock content %}
