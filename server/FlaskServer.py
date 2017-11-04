@@ -1,5 +1,8 @@
 from flask import Flask, render_template, redirect
 from subprocess import run
+from os.path import realpath
+from shelve import open as shelf
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -95,28 +98,36 @@ def files(filename):
         return file.read()
 
 
-@app.route('/videos/<year>/<month>/<day>/<time>/<pi>')
-def video(year, month, day, time, pi):
-    with open('/mnt/%s/%s/%s/%s/%s.h264' % (year, month, day, pi, time), 'rb') as file:
+@app.route('/videos/<path:path>')
+def video(path):
+    with open('/mnt/%s.h264' % path, 'rb') as file:
         return file.read()
 
 
-@app.route('/incidents/<year>/<month>/<day>/<incident>')
-def incident(*args):
-    videos = '/mnt/' + '/'.join(args)
+@app.route('/incidents/<path:args>')
+def incident(args):
+    videos = '/mnt/' + args
     return render_template('videopage.html', video={'front': videos + '/FrontPi.h264', 'side': videos + '/SidePi.h264'},
                            **get_basic_dict())
 
 
-@app.route('/ride/<path: date>')
+@app.route('/ride/<path:date>')
 def ride(date):
-    return render_template('ridepage.html', **get_basic_dict())
+    if date == 'latest':
+        path = realpath('/mnt/latest')
+    else:
+        path = '/mnt/' + date
+    shelve = shelf(path + '/data')
+    return render_template('ridepage.html', **get_basic_dict(),
+                           incidents=shelve['incidents'],
+                           ride=(date == 'latest'),
+                           date=datetime.now().strftime('%d/%m/%Y')
+                           )
 
 
 @app.route('/')
 def index():
-    latest_ride = '/ride/latest'
-    return redirect(latest_ride, 303)
+    return redirect('/ride/latest', 303)
 
 
 @app.route('/rideDone')

@@ -25,7 +25,12 @@ background-color:#fff;
 }
 {% endblock style %}
 {% block content %}
-<h3>Ride from {{ ride }}</h3>
+{% if latest %}
+<h3>Latest Ride - {{ date }}</h3>
+{% else %}
+<h3>{{ date }}</h3>
+{% endif %}
+
 <table>
     <tr>
         <th>License</th>
