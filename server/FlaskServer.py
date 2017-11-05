@@ -147,4 +147,9 @@ def stylesheet():
         return style.read()
 
 
+@app.route('/main.html')
+def main():
+    return render_template('main.html', **get_basic_dict())
+
+
 app.run(debug=True, host='127.0.0.1', port=8080)
