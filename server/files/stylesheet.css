@@ -32,8 +32,6 @@ div.sidebar {
     z-index: 0;
 }
 
-
-
 .indent1 {
     text-indent: 25px;
 }
@@ -41,7 +39,6 @@ div.sidebar {
 .indent2 {
     margin-left: 50px;
 }
-
 
 .title-link {
     color: white;
