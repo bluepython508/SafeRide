@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, Response
 from subprocess import run
 from os.path import realpath
 from shelve import open as shelf
@@ -139,5 +139,10 @@ def upload():
 def main():
     return render_template('main.html', **get_basic_dict())
 
+
+@app.route('/stylesheet.css')
+def style():
+    with open('static/stylesheet.css') as stylesheet:
+        return Response(stylesheet.read(), mimetype='text/css')
 
 app.run(debug=True, host='127.0.0.1', port=8080)
