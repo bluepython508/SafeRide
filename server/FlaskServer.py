@@ -6,10 +6,13 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
 
 def get_basic_dict():
-    return dict(curyear=2017,
-                months=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    now = datetime.now()
+    return dict(curyear=now.year,
+                months=MONTHS[:now.month],
                 rides={
                     "Jan": [{"href": "/", "date": "8th"}],
                     "Feb": [{"href": "/", "date": "7th"}],
@@ -144,5 +147,6 @@ def main():
 def style():
     with open('static/stylesheet.css') as stylesheet:
         return Response(stylesheet.read(), mimetype='text/css')
+
 
 app.run(debug=True, host='127.0.0.1', port=8080)
