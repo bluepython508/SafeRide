@@ -37,11 +37,11 @@ def main():
     mainshelf = shelve.open('/mnt/data', writeback=True)
     now = datetime.datetime.now()
     ride_data = {'href': ride.replace('/mnt/', '/ride/'), 'date': ordinal_number(now.day)}
-    if not 'rides' in mainshelf:
+    if 'rides' not in mainshelf:
         mainshelf['rides'] = {}
-    if not now.year in mainshelf['rides']:
+    if now.year not in mainshelf['rides']:
         mainshelf['rides'][now.year] = {now.month: [ride_data]}
-    elif not now.month in mainshelf['rides'][now.year]:
+    elif now.month not in mainshelf['rides'][now.year]:
         mainshelf['rides'][now.year][now.month] = [ride_data]
     else:
         mainshelf['rides'][now.year][now.month].append(ride_data)
