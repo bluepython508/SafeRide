@@ -1,4 +1,7 @@
 {% extends "main.html" %}
+{% block title %}
+{{ date }} - {{ super() }}
+{% endblock %}
 {% block style %}
 td a.invisible-link {
 display:block;
