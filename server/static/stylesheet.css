@@ -1,17 +1,20 @@
 p {
     display: inline;
 }
+
 nav#titlebar {
     background-color: green;
     color: white;
     height: 4%;
 }
+
 html {
     height: 100vh;
     width: 100wh;
     max-width: 100%;
     x-overflow: hidden;
 }
+
 body {
     margin-top: 5px;
     height: 100wh;
@@ -19,6 +22,7 @@ body {
     width: 100%;
     x-overflow: hidden;
 }
+
 div.sidebar {
     width: 10%;
     height: 100%;
@@ -28,26 +32,33 @@ div.sidebar {
     background-color: lightblue;
     z-index: 0;
 }
+
 .indent1 {
     text-indent: 25px;
 }
+
 .indent2 {
     margin-left: 50px;
 }
+
 .title-link {
     color: white;
 }
+
 .title-link:hover {
     text-decoration: none;
     color: white;
 }
+
 .content {
     margin-top: 3%;
     text-align: left;
 }
+
 a:hover {
     text-decoration: none;
 }
+
 .scrollablenav {
     overflow-y: auto;
     height: 100%;
