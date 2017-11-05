@@ -135,7 +135,6 @@ def upload():
     run("python3", '/home/video/finishRide.py')
 
 
-
 @app.route('/main.html')
 def main():
     return render_template('main.html', **get_basic_dict())
