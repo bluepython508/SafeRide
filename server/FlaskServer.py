@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, Response
-from subprocess import run
+from datetime import datetime
 from os.path import realpath
 from shelve import open as shelf
-from datetime import datetime
+from subprocess import run
+
+from flask import Flask, render_template, redirect, Response
 
 app = Flask(__name__)
 
@@ -11,88 +12,10 @@ MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 
 def get_basic_dict():
     now = datetime.now()
-    return dict(curyear=now.year,
-                months=MONTHS[:now.month],
-                rides={
-                    "Jan": [{"href": "/", "date": "8th"}],
-                    "Feb": [{"href": "/", "date": "7th"}],
-                    "Mar": [{"href": "/", "date": "7th"}],
-                    "Apr": [{"href": "/", "date": "7th"}],
-                    "May": [{"href": "/", "date": "7th"}],
-                    "Jun": [{"href": "/", "date": "7th"}],
-                    "Jul": [{"href": "/", "date": "7th"}],
-                    "Aug": [{"href": "/", "date": "7th"}],
-                    "Sep": [{"href": "/", "date": "7th"}],
-                    "Oct": [{"href": "/", "date": "7th"}],
-                    "Nov": [{"href": "/", "date": "7th"}],
-                    "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
-                            {"href": "/", "date": "7th"}],
-                },
-                years=[
-                    {'display': 2016,
-                     'months': ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                     'rides': {"Jan": [{"href": "/", "date": "8th"}],
-                               "Feb": [{"href": "/", "date": "7th"}],
-                               "Mar": [{"href": "/", "date": "7th"}],
-                               "Apr": [{"href": "/", "date": "7th"}],
-                               "May": [{"href": "/", "date": "7th"}],
-                               "Jun": [{"href": "/", "date": "7th"}],
-                               "Jul": [{"href": "/", "date": "7th"}],
-                               "Aug": [{"href": "/", "date": "7th"}],
-                               "Sep": [{"href": "/", "date": "7th"}],
-                               "Oct": [{"href": "/", "date": "7th"}],
-                               "Nov": [{"href": "/", "date": "7th"}],
-                               "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
-                                       {"href": "/", "date": "7th"}], }},
-                    {'display': 2015,
-                     'months': ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                                "Dec"],
-                     'rides': {"Jan": [{"href": "/", "date": "8th"}],
-                               "Feb": [{"href": "/", "date": "7th"}],
-                               "Mar": [{"href": "/", "date": "7th"}],
-                               "Apr": [{"href": "/", "date": "7th"}],
-                               "May": [{"href": "/", "date": "7th"}],
-                               "Jun": [{"href": "/", "date": "7th"}],
-                               "Jul": [{"href": "/", "date": "7th"}],
-                               "Aug": [{"href": "/", "date": "7th"}],
-                               "Sep": [{"href": "/", "date": "7th"}],
-                               "Oct": [{"href": "/", "date": "7th"}],
-                               "Nov": [{"href": "/", "date": "7th"}],
-                               "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
-                                       {"href": "/", "date": "7th"}], }},
-                    {'display': 2014,
-                     'months': ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                                "Dec"],
-                     'rides': {"Jan": [{"href": "/", "date": "8th"}],
-                               "Feb": [{"href": "/", "date": "7th"}],
-                               "Mar": [{"href": "/", "date": "7th"}],
-                               "Apr": [{"href": "/", "date": "7th"}],
-                               "May": [{"href": "/", "date": "7th"}],
-                               "Jun": [{"href": "/", "date": "7th"}],
-                               "Jul": [{"href": "/", "date": "7th"}],
-                               "Aug": [{"href": "/", "date": "7th"}],
-                               "Sep": [{"href": "/", "date": "7th"}],
-                               "Oct": [{"href": "/", "date": "7th"}],
-                               "Nov": [{"href": "/", "date": "7th"}],
-                               "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
-                                       {"href": "/", "date": "7th"}], }},
-                    {'display': 2013,
-                     'months': ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                                "Dec"],
-                     'rides': {"Jan": [{"href": "/", "date": "8th"}],
-                               "Feb": [{"href": "/", "date": "7th"}],
-                               "Mar": [{"href": "/", "date": "7th"}],
-                               "Apr": [{"href": "/", "date": "7th"}],
-                               "May": [{"href": "/", "date": "7th"}],
-                               "Jun": [{"href": "/", "date": "7th"}],
-                               "Jul": [{"href": "/", "date": "7th"}],
-                               "Aug": [{"href": "/", "date": "7th"}],
-                               "Sep": [{"href": "/", "date": "7th"}],
-                               "Oct": [{"href": "/", "date": "7th"}],
-                               "Nov": [{"href": "/", "date": "7th"}],
-                               "Dec": [{"href": "/", "date": "7th"}, {"href": "/", "date": "7th"},
-                                       {"href": "/", "date": "7th"}], }}
-                ])
+    shelve = shelf('/mnt/data')
+    return dict(curyear=now.year, months=MONTHS[:now.month], rides=shelve['rides'][now.year],
+                years=[{'display': year, 'months': MONTHS, 'rides': shelve['rides'][year]} for year in shelve['rides']
+                       if not year == now.year])
 
 
 @app.route('/static/<filename>')
