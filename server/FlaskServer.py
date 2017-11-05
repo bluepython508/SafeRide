@@ -92,9 +92,9 @@ def get_basic_dict():
                 ])
 
 
-@app.route('/files/<filename>')
+@app.route('/static/<filename>')
 def files(filename):
-    with open('files/%s' % filename, 'rb') as file:
+    with open('static/%s' % filename, 'rb') as file:
         return file.read()
 
 
@@ -134,17 +134,6 @@ def index():
 def upload():
     run("python3", '/home/video/finishRide.py')
 
-
-@app.route('/favicon.ico')
-def favicon():
-    with open("files/favicon.ico", 'rb') as fav:
-        return fav.read()
-
-
-@app.route('/style.css')
-def stylesheet():
-    with open("files/stylesheet.css", 'r') as style:
-        return style.read()
 
 
 @app.route('/main.html')
