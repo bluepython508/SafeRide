@@ -8,7 +8,7 @@ form {
 {% block content %}
 {{super()}}
 <form method="POST">
-    <input name="plate">
+    <input name="plate" value="{{ plate }}">
     <input type="submit">
 </form>
 {% endblock %}
