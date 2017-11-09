@@ -1,0 +1,14 @@
+{% extends "videopage.html" %}
+{% block style %}
+{{super()}}
+form {
+    float:center;
+}
+{% endblock %}
+{% block content %}
+{{super()}}
+<form method="POST">
+    <input name="plate">
+    <input type="submit">
+</form>
+{% endblock %}
