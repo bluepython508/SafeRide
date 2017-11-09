@@ -31,7 +31,7 @@ def video(path):
 
 
 @app.route('/incidents/<path:args>/fix', methods=['GET', 'POST'])
-def fix(args):
+def fix(args, request=None):
     shelve = shelf('/mnt/' + '/'.join(args.split('/')[:-1]) + '/data', writeback=True)
     newplate = request.values.get('plate', default=shelve['incidents'][args.split('/')[-1]]['plate'])
     shelve['incidents'][args.split('/')[-1]]['plate'] = newplate
