@@ -8,6 +8,8 @@ float:right;
 }
 {% endblock %}
 {% block content %}
+<h3>{{ plate }}</h3>
+<h4>{{ videotime }}</h4>
 <video controls preload="metadata" class="front">
     <source src="{{ video['front'] }}"/>
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
@@ -18,4 +20,8 @@ float:right;
 </video>
 <a href="{{video['front']}}" class="front">Download front video</a>
 <a href="{{video['side']}}" class="side">Download side video</a>
+
 {% endblock content %}
+{% block footer %}
+<p><a href="/incidents/{{ url }}/fix"></a></p>
+{% endblock %}

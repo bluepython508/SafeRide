@@ -1,12 +1,13 @@
-from openalpr import Alpr
+import datetime
+import shelve
 from contextlib import closing
-from videosequence import VideoSequence
 from os import listdir, makedirs, symlink, unlink
 from os.path import exists
-import shelve
-import datetime
 # import time
 from shutil import copy
+
+from openalpr import Alpr
+from videosequence import VideoSequence
 
 
 class AlprError(Exception):
@@ -47,7 +48,7 @@ def main():
         mainshelf['rides'][now.year][now.month].append(ride_data)
     mainshelf.sync()
     mainshelf.close()
-    shelf['incidents'] = []
+    shelf['incidents'] = {}
     if exists('/mnt/latest'):
         unlink('/mnt/latest')
     symlink(ride, '/mnt/latest')
@@ -64,8 +65,8 @@ def main():
                 except:
                     plate = ''
                 if not plate == oldlicense:
-                    shelf['incidents'].append(
-                        {'page': ride.replace('/mnt', '') + video.replace('.h264', ''), 'plate': plate})
+                    shelf['incidents'][video.replace('.h264', '')] = \
+                        {'page': ride.replace('/mnt', '') + video.replace('.h264', ''), 'plate': plate}
                     break
                 oldlicense = plate
 

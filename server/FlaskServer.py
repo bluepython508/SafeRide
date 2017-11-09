@@ -30,10 +30,29 @@ def video(path):
         return file.read()
 
 
+@app.route('/incidents/<path:args>/fix', methods=['GET', 'POST'])
+def fix(args):
+    shelve = shelf('/mnt/' + '/'.join(args.split('/')[:-1]) + '/data', writeback=True)
+    newplate = request.values.get('plate', default=shelve['incidents'][args.split('/')[-1]]['plate'])
+    shelve['incidents'][args.split('/')[-1]]['plate'] = newplate
+    videos = '/mnt/' + args
+    shelve.sync()
+    shelve.close()
+    if request.method == 'POST':
+        return redirect('/incidents/' + args, 303)
+    return render_template('fixpage.html', video={'front': videos + '/FrontPi.h264', 'side': videos + '/SidePi.h264'},
+                           plate=newplate, videotime=args.split('/')[-1],
+                           ** get_basic_dict())
+
+
 @app.route('/incidents/<path:args>')
 def incident(args):
+    shelve = shelf('/mnt/' + '/'.join(args.split('/')[:-1]) + '/data')
     videos = '/mnt/' + args
-    return render_template('videopage.html', video={'front': videos + '/FrontPi.h264', 'side': videos + '/SidePi.h264'},
+    plate = shelve['incidents'][args.split('/')[-1]]['plate']
+    shelve.close()
+    return render_template('fixpage.html', video={'front': videos + '/FrontPi.h264', 'side': videos + '/SidePi.h264'},
+                           plate=plate, videotime=args.split('/')[-1], url=args,
                            **get_basic_dict())
 
 
