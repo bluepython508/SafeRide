@@ -1,3 +1,7 @@
+img {
+	height:50px;
+	width:50px;
+}
 p {
     display: inline;
 }
@@ -5,7 +9,7 @@ p {
 nav#titlebar {
     background-color: green;
     color: white;
-    height: 4%;
+    height: 6.05%;
 }
 
 html {
@@ -25,9 +29,9 @@ body {
 
 div.sidebar {
     width: 10%;
-    height: 100%;
+    height: 100vh;
     right: 0px;
-    top: 4.01%;
+    top: 6.05%;
     position: fixed;
     background-color: lightblue;
     z-index: 0;
@@ -51,7 +55,7 @@ div.sidebar {
 }
 
 .content {
-    margin-top: 3%;
+    margin-top: 6%;
     text-align: left;
 }
 
