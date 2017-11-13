@@ -21,6 +21,7 @@ html {
 
 body {
     align-items:stretch;
+    display: flex;
     margin-top: 5px;
     height: 100wh;
     max-width: 100%;
