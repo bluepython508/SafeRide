@@ -1,27 +1,54 @@
 {% extends "main.html" %}
 {% block style %}
+video {
+		width:40wh;
+		height:40vh;
+}
 .front {
-float:left;
+	left:1px;
+	bottom:0px;
 }
 .side {
-float:right;
+	right:1px;
+	bottom:0px;
+}
+.link.side {
+	margin-left:0px;
+	text-align: left;
+}
+.link.front {
+	float:left;
+	margin-left:0px;
+	text-align:right;
+}
+
+.fix {
+	bottom:0px;
+}
+div {
+	height:100%;
+	width:100%;
 }
 {% endblock %}
 {% block content %}
 <h3>{{ plate }}</h3>
 <h4>{{ videotime }}</h4>
+
 <video controls preload="metadata" class="front">
-    <source src="{{ video['front'] }}"/>
+    <source src="{{ video['front'] }}">
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
+
+
 <video controls preload="metadata" class="side">
-    <source src="{{ video['side'] }}"/>
+    <source src="{{ video['side'] }}">
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
-<a href="{{video['front']}}" class="front">Download front video</a>
-<a href="{{video['side']}}" class="side">Download side video</a>
+
+<br><p><a href="{{video['front']}}" class="link front">Download front video</a><br>
+<a href="{{video['side']}}" class="link side">Download side video</a></p>
 
 {% endblock content %}
 {% block footer %}
-<p><a href="/incidents/{{ url }}/fix"></a></p>
+<a href="/incidents/{{ url }}/fix" class="link fix"><br>Correct this license</a>
 {% endblock %}

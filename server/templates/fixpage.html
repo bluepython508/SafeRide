@@ -1,8 +1,33 @@
 {% extends "videopage.html" %}
 {% block style %}
-{{super()}}
-form {
-    float:center;
+video {
+		width:40wh;
+		height:40vh;
+}
+.front {
+	left:1px;
+	bottom:0px;
+}
+.side {
+	right:1px;
+	bottom:0px;
+}
+.link.side {
+	margin-left:0px;
+	text-align: left;
+}
+.link.front {
+	float:left;
+	margin-left:0px;
+	text-align:right;
+}
+
+.fix {
+	bottom:0px;
+}
+div {
+	height:100%;
+	width:100%;
 }
 {% endblock %}
 {% block content %}
