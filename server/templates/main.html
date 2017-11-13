@@ -28,50 +28,7 @@
 
 </nav>
 {% endblock %}
-{% block sidebar %}
-
-<div class="container col-12 sidebar" id="sidebar">
-    <div class="scrollablenav">
-        <details open>
-            <summary class="year">{{ curyear }}</summary>
-            {% for month in months %}
-            <details>
-                <summary class="indent1">{{ month }}</summary>
-                {% if month in rides %}
-                {% for ride in rides[month] %}
-                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
-                                {% if rides[month].__len__() > 1 %}
-                                    <br>
-                                {% endif %}
-                                </span>
-                {% endfor %}
-                {% endif %}
-            </details>
-            {% endfor %}
-        </details>
-        {% for year in years %}
-        <details>
-            <summary>{{ year['display'] }}</summary>
-            {% for month in year['months'] %}
-            <details>
-                <summary class="indent1">{{ month }}</summary>
-                {% for ride in year['rides'][month] %}
-                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
-                                        {% if year['rides'][month].__len__() > 1 %}
-                                            <br>
-                                        {% endif %}
-                                        </span>
-                {% endfor %}
-            </details>
-            {% endfor %}
-        </details>
-        {% endfor %}
-    </div>
-</div>
-
-
-{% endblock %}
-<div class="content container-fluid">
+<div class="content container-fluid col-md-11">
     {% block content %}
     <pre>
 
@@ -200,5 +157,48 @@
     {% block footer %}
     {% endblock %}
 </div>
+{% block sidebar %}
+
+<div class="container col-md-1 sidebar" id="sidebar">
+    <div class="scrollablenav">
+        <details open>
+            <summary class="year">{{ curyear }}</summary>
+            {% for month in months %}
+            <details>
+                <summary class="indent1">{{ month }}</summary>
+                {% if month in rides %}
+                {% for ride in rides[month] %}
+                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
+                                {% if rides[month].__len__() > 1 %}
+                                    <br>
+                                {% endif %}
+                                </span>
+                {% endfor %}
+                {% endif %}
+            </details>
+            {% endfor %}
+        </details>
+        {% for year in years %}
+        <details>
+            <summary>{{ year['display'] }}</summary>
+            {% for month in year['months'] %}
+            <details>
+                <summary class="indent1">{{ month }}</summary>
+                {% for ride in year['rides'][month] %}
+                <span class="indent2"><a href="{{ ride['href'] }}">{{ ride['date'] }}</a>
+                                        {% if year['rides'][month].__len__() > 1 %}
+                                            <br>
+                                        {% endif %}
+                                        </span>
+                {% endfor %}
+            </details>
+            {% endfor %}
+        </details>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
 </body>
 </html>
