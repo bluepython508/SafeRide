@@ -39,7 +39,7 @@ body {
     z-index: 0;
 }
 #sidebar.active {
-    margin-left: -250px;
+    margin-right: -250px;
 }
 
 @media (max-width: 768px) {
