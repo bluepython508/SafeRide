@@ -33,7 +33,7 @@ body {
     height: 100vh;
     right: 0px;
     width:125px;
-    margin-top: 6.05%;
+    top: 6.05%;
     position: fixed;
     background-color: lightblue;
     z-index: 0;
