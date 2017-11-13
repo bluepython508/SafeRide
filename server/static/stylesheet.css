@@ -30,7 +30,6 @@ body {
 }
 
 div.sidebar {
-    /*width: 10%;*/
     min-height: 100vh;
     right: 0px;
     width:500px;
