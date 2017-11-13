@@ -20,6 +20,8 @@ html {
 }
 
 body {
+    align-items:stretch;
+    display: flex;
     margin-top: 5px;
     height: 100wh;
     max-width: 100%;
@@ -27,15 +29,28 @@ body {
     x-overflow: hidden;
 }
 
-div.sidebar {
-    /*width: 10%;*/
+.sidebar {
     height: 100vh;
     right: 0px;
+    width:125px;
     top: 6.05%;
     position: fixed;
     background-color: lightblue;
     z-index: 0;
 }
+#sidebar.active {
+    margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
 
 .indent1 {
     text-indent: 25px;
@@ -66,4 +81,5 @@ a:hover {
 .scrollablenav {
     overflow-y: auto;
     height: 100%;
+    width: 100%;
 }
