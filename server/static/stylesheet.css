@@ -39,6 +39,15 @@ div.sidebar {
     z-index: 0;
 }
 
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
 .indent1 {
     text-indent: 25px;
 }
