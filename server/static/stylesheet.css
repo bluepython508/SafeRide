@@ -114,4 +114,5 @@ a:hover {
     margin-bottom:0px;
     color:white;
     float:right;
+    box-sizing:border-box;
 }
