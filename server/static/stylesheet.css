@@ -96,6 +96,7 @@ a:hover {
 .navbar-btn#sidebarCollapse img{
     background-color:#343a40!important;
     height:40px;
+    width:40px;
     margin-top:0px;
     padding-top:0px;
     border-top:0px;
