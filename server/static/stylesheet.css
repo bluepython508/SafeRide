@@ -34,7 +34,7 @@ body {
 
 #sidebar {
     height: 100vh;
-    margin-right: 0px;
+    right: 0px;
     width:125px;
     top: 50px;
     position: fixed;
@@ -42,15 +42,15 @@ body {
     z-index: 0;
 }
 #sidebar.active {
-    margin-right: -250px;
+    right: -250px;
 }
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-right: -250px;
+        right: -250px;
     }
     #sidebar.active {
-        margin-right: 0;
+        right: 0;
     }
 }
 
