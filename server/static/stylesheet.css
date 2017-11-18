@@ -33,6 +33,7 @@ body {
 }
 
 #sidebar {
+    float:right;
     height: 100vh;
     margin-right: 0px;
     width:125px;
