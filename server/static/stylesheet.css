@@ -86,7 +86,7 @@ a:hover {
     height: 100%;
     width: 100%;
 }
-.navbar-btn {
+.navbar-btn#sidebarCollapse {
     background-color:#343a40!important;
-    height:
+    height:50px;
 }
