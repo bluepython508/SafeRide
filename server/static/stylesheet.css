@@ -93,6 +93,7 @@ a:hover {
     float:right;
     right:10px;
     box-sizing:border-box;
+    border:0px;
 }
 .navbar-btn#sidebarCollapse img{
     background-color:#343a40!important;
