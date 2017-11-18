@@ -22,11 +22,12 @@
 {% block titlebar %}
 <nav id="titlebar" class="navbar navbar-expand-md fixed-top nav-dark bg-dark">
     <!--<img src="/favicon.ico" width="30" height="30">-->
-    <a href="/" class="title-link navbar-brand"><h5><img src="/static/saferide.png" alt="SafeRide" height="56px" width="56px"></h5></a>
-    <h4><a href="/ride/latest" class="title-link nav-link">Latest Ride</a></h4>
-    <button type="button" id="sidebarCollapse" class="btn navbar-btn">
-        <img src="/static/menu.png" class="menu-btn"> <div><p>Menu</p></div>
-    </button>
+    <a href="/" class="title-link navbar-brand menu-btn"><h5><img src="/static/saferide.png" alt="SafeRide" height="56px" width="56px"></h5></a>
+    <h4><a href="/ride/latest" class="title-link nav-link inessential latest-link">Latest Ride</a></h4>
+    <h3><button type="button" id="sidebarCollapse" class="btn navbar-btn">
+        <!--<img src="/static/menu.png" class="menu-btn"> <div><p>Menu</p></div>-->
+        <span>Rides&nbsp;&nbsp;&#8942;</span>
+    </button></h3>
 
 
 </nav>

@@ -2,6 +2,11 @@ img {
 	height:50px;
 	width:50px;
 }
+.latest-link {
+    position:relative;
+    margin-top:3px;
+    margin-right:200px;
+}
 menu-btn {
 
 }
@@ -52,8 +57,15 @@ body {
     #sidebar.active {
         right: 0;
     }
+    .inessential {
+        display:none;
+    }
 }
-
+.title-link img {
+    position:relative;
+    top:3px;
+    margin-right:10px;
+}
 
 .indent1 {
     text-indent: 25px;
@@ -93,28 +105,42 @@ a:hover {
     float:right;
     right:10px;
     box-sizing:border-box;
+    border:0px;
+    padding:0px;
 }
 .navbar-btn#sidebarCollapse img{
-    background-color:#343a40!important;
-    height:40px;
-    width:40px;
-    margin-top:0px;
-    padding-top:0px;
-    border-top:0px;
 
-}
-
-.navbar-btn#sidebarCollapse div p {
+    position:absolute;
     background-color:#343a40!important;
     height:50px;
     margin-top:0px;
-    padding-top:0px;
+    padding-top:10px;
     border-top:0px;
-    padding-right:0px;
+    padding-right:20px;
     margin-right:0px;
     border-right:0px;
+    right:0px;
+    top:0px;
     margin-bottom:0px;
     color:white;
-    float:right;
     box-sizing:border-box;
+}
+
+.navbar-btn#sidebarCollapse span {
+
+    position:absolute;
+    background-color:#343a40!important;
+    height:50px;
+    margin-top:0px;
+    padding-top:10px;
+    border-top:0px;
+    padding-right:20px;
+    margin-right:0px;
+    border-right:0px;
+    right:0px;
+    top:0px;
+    margin-bottom:0px;
+    color:white;
+    box-sizing:border-box;
+    font-size:150%;
 }
