@@ -2,6 +2,9 @@ img {
 	height:50px;
 	width:50px;
 }
+menu-btn {
+
+}
 p {
     display: inline;
 }
@@ -9,7 +12,7 @@ p {
 nav#titlebar {
     /*background-color: green;*/
     color: white;
-    height: 6.05%;
+    height: 50px;
 }
 
 html {
@@ -29,25 +32,25 @@ body {
     x-overflow: hidden;
 }
 
-.sidebar {
+#sidebar {
     height: 100vh;
-    margin-right: 0px;
+    right: 0px;
     width:125px;
-    top: 6.05%;
+    top: 50px;
     position: fixed;
     background-color: lightblue;
     z-index: 0;
 }
 #sidebar.active {
-    margin-right: -250px;
+    right: -250px;
 }
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        right: -250px;
     }
     #sidebar.active {
-        margin-left: 0;
+        right: 0;
     }
 }
 
@@ -70,7 +73,7 @@ body {
 }
 
 .content {
-    margin-top: 6%;
+    margin-top: 50px;
     text-align: left;
 }
 
@@ -82,4 +85,34 @@ a:hover {
     overflow-y: auto;
     height: 100%;
     width: 100%;
+}
+.navbar-btn#sidebarCollapse {
+    background-color:#343a40!important;
+    height:50px;
+    top:0px;
+    float:right;
+    right:10px;
+}
+.navbar-btn#sidebarCollapse img{
+    background-color:#343a40!important;
+    height:40px;
+    width:40px;
+    margin-top:0px;
+    padding-top:0px;
+    border-top:0px;
+}
+
+.navbar-btn#sidebarCollapse div p {
+    background-color:#343a40!important;
+    height:50px;
+    margin-top:0px;
+    padding-top:0px;
+    border-top:0px;
+    padding-right:0px;
+    margin-right:0px;
+    border-right:0px;
+    margin-bottom:0px;
+    color:white;
+    float:right;
+    box-sizing:border-box;
 }
