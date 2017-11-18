@@ -101,3 +101,11 @@ a:hover {
     padding-top:0px;
     border-top:0px;
 }
+
+.navbar-btn#sidebarCollapse span{
+    background-color:#343a40!important;
+    height:50px;
+    top:0px;
+    float:right;
+    right:10px;
+}
