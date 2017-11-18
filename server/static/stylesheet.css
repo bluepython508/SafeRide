@@ -107,7 +107,7 @@ a:hover {
 }
 
 .navbar-btn#sidebarCollapse span {
-    float:right;
+
     position:fixed;
     background-color:#343a40!important;
     height:50px;
