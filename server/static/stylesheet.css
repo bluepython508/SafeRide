@@ -106,7 +106,7 @@ a:hover {
 
 }
 
-.navbar-btn#sidebarCollapse div p {
+.navbar-btn#sidebarCollapse span {
     background-color:#343a40!important;
     height:50px;
     margin-top:0px;
