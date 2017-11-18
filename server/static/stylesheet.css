@@ -2,6 +2,9 @@ img {
 	height:50px;
 	width:50px;
 }
+menu-btn {
+
+}
 p {
     display: inline;
 }
@@ -82,4 +85,7 @@ a:hover {
     overflow-y: auto;
     height: 100%;
     width: 100%;
+}
+.navbar-btn {
+    background-color:#343a40!important;
 }
