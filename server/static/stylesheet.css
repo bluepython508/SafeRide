@@ -91,6 +91,7 @@ a:hover {
     height:50px;
     top:0px;
     float:right;
+    right:10px;
 }
 .navbar-btn#sidebarCollapse img{
     background-color:#343a40!important;
