@@ -47,10 +47,10 @@ body {
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        margin-right: -250px;
     }
     #sidebar.active {
-        margin-left: 0;
+        margin-right: 0;
     }
 }
 
