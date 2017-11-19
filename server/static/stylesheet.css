@@ -3,7 +3,7 @@ img {
 	width:50px;
 }
 .latest-link {
-    position:relative;
+    position:absolute;
     top:3px;
     margin-right:100px;
 }
