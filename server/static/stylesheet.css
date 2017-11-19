@@ -52,6 +52,9 @@ body {
     #sidebar.active {
         right: 0;
     }
+    .inessential {
+        display:none;
+    }
 }
 
 
