@@ -57,8 +57,9 @@ body {
     }
 }
 .title-link img {
-    position:fixed;
+    position:absolute;
     top:3px;
+    margin-right:10px;
 }
 
 .indent1 {
