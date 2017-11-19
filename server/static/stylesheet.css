@@ -4,6 +4,8 @@ img {
 }
 .latest-link {
     position:absolute;
+    top:3px;
+    right:80px;
 }
 menu-btn {
 
