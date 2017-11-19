@@ -108,7 +108,7 @@ a:hover {
 
 .navbar-btn#sidebarCollapse span {
 
-    position:fixed;
+    position:absolute;
     background-color:#343a40!important;
     height:50px;
     margin-top:0px;
@@ -118,6 +118,7 @@ a:hover {
     margin-right:0px;
     border-right:0px;
     right:0px;
+    top:0px;
     margin-bottom:0px;
     color:white;
     box-sizing:border-box;
