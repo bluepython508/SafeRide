@@ -3,7 +3,7 @@ img {
 	width:50px;
 }
 .latest-link {
-    position:absolute;
+    position:relative;
     margin-top:3px;
     margin-right:200px;
 }
@@ -62,7 +62,7 @@ body {
     }
 }
 .title-link img {
-    position:absolute;
+    position:relative;
     top:3px;
     margin-right:10px;
 }
