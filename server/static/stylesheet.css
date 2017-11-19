@@ -56,7 +56,10 @@ body {
         display:none;
     }
 }
-
+.title-link img {
+    position:fixed;
+    top:3px;
+}
 
 .indent1 {
     text-indent: 25px;
