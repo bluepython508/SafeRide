@@ -1,7 +1,9 @@
 import argparse
+import datetime
 import os.path
 import signal
 import subprocess
+import threading
 import time
 
 import gpiozero
@@ -23,26 +25,6 @@ def exitLoop():
     raise LoopExit()
 
 
-def finishRide(args):
-    args.finish_output.on()
-    time.sleep(0.01)
-    args.finish_output.off()
-    subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
-    subprocess.run(
-        "scp", "-r", '/home/pi/Video',
-        "video@{host}:{location}/{pi}".format(host=args.server, location=args.output_dir,
-                                              pi=os.path.basename(
-                                                                                __file__
-                                                                            ).split(
-                                                                                '.'
-                                                                            )[0]),
-        shell=True)  # Copy video over to a unique filename
-    subprocess.run('rm -rf /home/pi/Video', shell=True)
-    subprocess.run('mkdir -p /home/pi/Video', shell=True)
-    requests.get('%s/rideDone' % args.server)
-    subprocess.run("poweroff")  # Shutdown
-
-
 def getDistance(val):
     mv = (val * 5) * 1000  # 0-1 x5-> 0-5 Volts -> x1000 = mV
     distance_mm = 1420000 / (mv - 1091)
@@ -55,15 +37,55 @@ def threshholdIter(values, threshhold, operation=lambda x: x):
         yield (value < threshhold)
 
 
+def runIter(values, func, *args, **kwargs):
+    for value in values:
+        if value:
+            thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+            thread.start()
+        yield value
+
+
+def finishRide(args):
+    args.finish_output.on()
+    time.sleep(0.01)
+    args.finish_output.off()
+    subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
+    subprocess.run(
+        "scp", "-r", '/home/pi/Video',
+        "video@{host}:{location}/{pi}".format(host=args.server, location=args.output_dir,
+                                              pi=os.path.basename(
+                                                  __file__
+                                              ).split(
+                                                  '.'
+                                              )[0]),
+        shell=True)  # Copy video over to a unique filename
+    subprocess.run('rm -rf /home/pi/Video', shell=True)
+    subprocess.run('mkdir -p /home/pi/Video', shell=True)
+    requests.get('%s/rideDone' % args.server)
+    subprocess.run("poweroff")  # Shutdown
+
+
+def passed(args):
+    args.recording_led.on()
+    args.stream.clear()
+    args.camera.wait_recording(args.pass_length)
+    args.stream.copy_to('/home/pi/Video/{0}.mp4'.format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
+                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+    args.recording_led.off()
+
+
 def flag(args):
-    args.pass_signal.blink(on_time=0.1, background=True, n=1)
+    args.recording_led.blink(background=True, n=1)
+    args.flag_signal.blink(on_time=0.1, background=True, n=1)
+    args.stream.copy_to('/home/pi/Video/{0}.mp4'.format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
+                        seconds=args.flag_length)
 
 
 def ride(args):
     args.camera = picamera.PiCamera()
-    args.stream = picamera.PiCameraCircularIO(seconds=max(args.flag_length, args.pass_length))
+    args.stream = picamera.PiCameraCircularIO(args.camera, seconds=max(args.flag_length, args.pass_length))
     args.camera.start_recording(args.stream, 'mp4')
-    args.pass_signal.values = threshholdIter(args.range_sensor.values, 150, getDistance)
+    args.pass_signal.source = runIter(threshholdIter(args.range_sensor.values, 150, getDistance), passed, args)
     try:
         while True:
             args.camera.wait_recording(1)
@@ -72,7 +94,6 @@ def ride(args):
         args.camera.close()
         args.ride_button.when_pressed = lambda: ride(args)
         args.flag_button.when_pressed = lambda: finishRide(args)
-
 
 
 def main():
