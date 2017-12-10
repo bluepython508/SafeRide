@@ -52,7 +52,7 @@ def flag(args):
 
 
 def ride(args):
-    args.camera = picamera.PiCamera()
+    args.camera = picamera.PiCamera(sensor_mode=2)
     args.stream = picamera.PiCameraCircularIO(args.camera, seconds=max(args.flag_length, args.pass_length))
     args.camera.start_recording(args.stream, "mp4")
     args.ride_button.when_pressed = exitLoop
