@@ -1,6 +1,5 @@
 import argparse
 import datetime
-import os.path
 import signal
 import subprocess
 import threading
@@ -51,17 +50,11 @@ def finishRide(args):
     args.finish_output.off()
     subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
     subprocess.run(
-        "scp", "-r", '/home/pi/Video',
-        "video@{host}:{location}/{pi}".format(host=args.server, location=args.output_dir,
-                                              pi=os.path.basename(
-                                                  __file__
-                                              ).split(
-                                                  '.'
-                                              )[0]),
-        shell=True)  # Copy video over to a unique filename
-    subprocess.run('rm -rf /home/pi/Video', shell=True)
-    subprocess.run('mkdir -p /home/pi/Video', shell=True)
-    requests.get('%s/rideDone' % args.server)
+        "scp", "-r", "/home/pi/Video",
+        f"video@{args.server}:{args.output_dir}/SidePi", shell=True)  # Copy video over to a unique filename
+    subprocess.run("rm -rf /home/pi/Video", shell=True)
+    subprocess.run("mkdir -p /home/pi/Video", shell=True)
+    requests.get(f"{args.server}/rideDone")
     subprocess.run("poweroff")  # Shutdown
 
 
@@ -69,7 +62,7 @@ def passed(args):
     args.recording_led.on()
     args.stream.clear()
     args.camera.wait_recording(args.pass_length)
-    args.stream.copy_to('/home/pi/Video/{0}.mp4'.format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
+    args.stream.copy_to(f"/home/pi/Video/{datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}.mp4",
                         seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
     args.recording_led.off()
 
@@ -77,18 +70,21 @@ def passed(args):
 def flag(args):
     args.recording_led.blink(background=True, n=1)
     args.flag_signal.blink(on_time=0.1, background=True, n=1)
-    args.stream.copy_to('/home/pi/Video/{0}.mp4'.format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
+    args.stream.copy_to(f"/home/pi/Video/{datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}.mp4",
                         seconds=args.flag_length)
 
 
 def ride(args):
     args.camera = picamera.PiCamera()
     args.stream = picamera.PiCameraCircularIO(args.camera, seconds=max(args.flag_length, args.pass_length))
-    args.camera.start_recording(args.stream, 'mp4')
+    args.camera.start_recording(args.stream, "mp4")
     args.pass_signal.source = runIter(threshholdIter(args.range_sensor.values, 150, getDistance), passed, args)
+    args.ride_button.when_pressed = exitLoop
     try:
         while True:
             args.camera.wait_recording(1)
+    except LoopExit:
+        pass
     finally:
         args.camera.stop_recording()
         args.camera.close()
