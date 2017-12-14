@@ -70,7 +70,7 @@ def ride(date):
     return render_template('ridepage.html', **get_basic_dict(),
                            incidents=shelve['incidents'].values(),
                            ride=(date == 'latest'),
-                           date=datetime.now().strftime('%d/%m/%Y')
+                           date=path.replace('/mnt/', '')
                            )
 
 
