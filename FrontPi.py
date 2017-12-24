@@ -30,7 +30,7 @@ def finishRide(args):
     subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
     subprocess.run(
         "scp", "-r", "/home/pi/Video",
-        f"video@{args.server}:{args.output_dir}/FrontPi",
+        "video@{}:{}/FrontPi".format(args.server, args.output_dir),
         shell=True)  # Copy video over to a unique filename
     subprocess.run("rm -rf /home/pi/Video", shell=True)
     subprocess.run("mkdir -p /home/pi/Video", shell=True)
@@ -41,14 +41,14 @@ def finishRide(args):
 def passed(args):
     args.stream.clear()
     args.camera.wait_recording(args.pass_length)
-    args.stream.copy_to(f"/home/pi/Video/{datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}.mp4",
+    args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
                         seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
 
 
 def flag(args):
     args.flag_signal.blink(on_time=0.1, background=True, n=1)
-    args.stream.copy_to(f"/home/pi/Video/{datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}.mp4",
-                        seconds=args.flag_length)
+    args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
+                        seconds=args.flag_length, first_frame=picamera.PiVideoFrameType.frame)
 
 
 def ride(args):
