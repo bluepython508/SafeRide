@@ -7,7 +7,6 @@ import time
 
 import gpiozero
 import picamera
-import requests
 
 DEFAULT_FLAG_TIME = 120
 DEFAULT_PASS_TIME = 60
@@ -54,7 +53,9 @@ def finishRide(args):
         "video@{}:{}/SidePi".format(args.server, args.output_dir), shell=True)  # Copy video over to a unique filename
     subprocess.run("rm -rf /home/pi/Video", shell=True)
     subprocess.run("mkdir -p /home/pi/Video", shell=True)
-    requests.get(f"{args.server}/rideDone")
+    args.finish_output.on()
+    time.sleep(0.01)
+    args.finish_output.off()
     subprocess.run("poweroff")  # Shutdown
 
 
