@@ -34,7 +34,7 @@ def finishRide(args):
         shell=True)  # Copy video over to a unique filename
     subprocess.run("rm -rf /home/pi/Video", shell=True)
     subprocess.run("mkdir -p /home/pi/Video", shell=True)
-    requests.get(f"{args.server}/rideDone")
+    requests.get("{}/rideDone".format(args.server))
     subprocess.run("poweroff")  # Shutdown
 
 
