@@ -42,13 +42,13 @@ def passed(args):
     args.stream.clear()
     args.camera.wait_recording(args.pass_length)
     args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame, format='h264')
 
 
 def flag(args):
     args.flag_signal.blink(on_time=0.1, background=True, n=1)
     args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.flag_length, first_frame=picamera.PiVideoFrameType.frame)
+                        seconds=args.flag_length, first_frame=picamera.PiVideoFrameType.frame, format='h264')
 
 
 def ride(args):

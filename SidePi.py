@@ -44,9 +44,6 @@ def runIter(values, func, *args, **kwargs):
 
 
 def finishRide(args):
-    args.finish_output.on()
-    time.sleep(0.01)
-    args.finish_output.off()
     subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
     subprocess.run(
         "scp", "-r", "/home/pi/Video",
@@ -64,7 +61,7 @@ def passed(args):
     args.stream.clear()
     args.camera.wait_recording(args.pass_length)
     args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame, format='h264')
     args.recording_led.off()
 
 
@@ -72,7 +69,7 @@ def flag(args):
     args.recording_led.blink(background=True, n=1)
     args.flag_signal.blink(on_time=0.1, background=True, n=1)
     args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.flag_length)
+                        seconds=args.flag_length, format='h264', first_frame=picamera.PiVideoFrameType.frame)
 
 
 def ride(args):
