@@ -13,6 +13,8 @@ MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 def get_basic_dict():
     now = datetime.now()
     shelve = shelf('/mnt/data')
+    if not now.year in shelve['rides']:
+        shelve['rides'][now.year] = {}
     return dict(curyear=now.year, months=MONTHS[:now.month], rides=shelve['rides'][now.year],
                 years=[{'display': year, 'months': MONTHS, 'rides': shelve['rides'][year]} for year in
                        shelve['rides'].keys()
@@ -44,7 +46,7 @@ def fix(args):
     plate = shelve['incidents'][args.split('/')[-1]]['plate']
     shelve.sync()
     shelve.close()
-    return render_template('fixpage.html', video={'front': videos + '/FrontPi.mp4', 'side': videos + '/SidePi.mp4'},
+    return render_template('fixpage.html', video={'front': videos + '/FrontPi', 'side': videos + '/SidePi'},
                            plate=plate, videotime=args.split('/')[-1],
                            **get_basic_dict())
 
@@ -55,7 +57,7 @@ def incident(args):
     videos = '/videos/' + args
     plate = shelve['incidents'][args.split('/')[-1]]['plate']
     shelve.close()
-    return render_template('videopage.html', video={'front': videos + '/FrontPi.mp4', 'side': videos + '/SidePi.mp4'},
+    return render_template('videopage.html', video={'front': videos + '/FrontPi', 'side': videos + '/SidePi'},
                            plate=plate, videotime=args.split('/')[-1], url=args,
                            **get_basic_dict())
 

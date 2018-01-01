@@ -35,13 +35,17 @@ div {
 <h4>{{ videotime }}</h4>
 
 <video controls preload="metadata" class="front">
-    <source src="{{ video['front'] }}">
+	<source src="{{ video['front'] }}.mp4" type="video/mp4">
+	<source src="{{ video['front'] }}.webm" type="video/webm">
+	<source src="{{ video['front'] }}.ogg" type="video/ogg">
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
 
 
 <video controls preload="metadata" class="side">
-    <source src="{{ video['side'] }}">
+	<source src="{{ video['side'] }}.mp4" type="video/mp4">
+	<source src="{{ video['side'] }}.webm" type="video/webm">
+	<source src="{{ video['side'] }}.ogg" type="video/ogg">
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
 
