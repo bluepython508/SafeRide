@@ -12,7 +12,7 @@ MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 
 def get_basic_dict():
     now = datetime.now()
-    shelve = shelf('/mnt/data')
+    shelve = shelf('/mnt/data', writeback=True)
     if not now.year in shelve['rides']:
         shelve['rides'][now.year] = {}
     return dict(curyear=now.year, months=MONTHS[:now.month], rides=shelve['rides'][now.year],
