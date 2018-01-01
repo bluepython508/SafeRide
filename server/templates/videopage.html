@@ -49,8 +49,8 @@ div {
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
 
-<br><p><a href="{{video['front']}}" class="link front">Download front video</a><br>
-<a href="{{video['side']}}" class="link side">Download side video</a></p>
+<br><p><a href="{{video['front'].mp4}}" class="link front">Download front video</a><br>
+	<a href="{{video['side'].mp4}}" class="link side">Download side video</a></p>
 
 {% endblock content %}
 {% block footer %}
