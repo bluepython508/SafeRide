@@ -13,12 +13,17 @@ MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 def get_basic_dict():
     now = datetime.now()
     shelve = shelf('/mnt/data', writeback=True)
-    if not now.year in shelve['rides']:
+    if now.year not in shelve['rides']:
         shelve['rides'][now.year] = {}
-    return dict(curyear=now.year, months=MONTHS[:now.month], rides=shelve['rides'][now.year],
+    shelve.sync()
+    shelve.close()
+    shelve = shelf('/mnt/data')
+    result = dict(curyear=now.year, months=MONTHS[:now.month], rides=shelve['rides'][now.year],
                 years=[{'display': year, 'months': MONTHS, 'rides': shelve['rides'][year]} for year in
                        shelve['rides'].keys()
                        if not year == now.year])
+    shelve.sync()
+    return result
 
 
 @app.route('/static/<filename>')
