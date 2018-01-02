@@ -104,12 +104,12 @@ def style():
 
 
 @app.route('/bootstrap.css')
-def style():
+def stylebootstrap():
     with open('static/bootstrap.min.css') as stylesheet:
         return Response(stylesheet.read(), mimetype='text/css')
 
 @app.route('/jquery')
-def style():
+def js():
     with open('static/jquery.min.js') as stylesheet:
         return Response(stylesheet.read(), mimetype='text/javascript')
 
