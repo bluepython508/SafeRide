@@ -103,4 +103,16 @@ def style():
         return Response(stylesheet.read(), mimetype='text/css')
 
 
+@app.route('/bootstrap.css')
+def style():
+    with open('static/bootstrap.min.css') as stylesheet:
+        return Response(stylesheet.read(), mimetype='text/css')
+
+@app.route('/jquery')
+def style():
+    with open('static/jquery.min.js') as stylesheet:
+        return Response(stylesheet.read(), mimetype='text/javascript')
+
+
+
 app.run(debug=True, host='0.0.0.0', port=80)
