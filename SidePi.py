@@ -11,7 +11,7 @@ import picamera
 DEFAULT_FLAG_TIME = 120
 DEFAULT_PASS_TIME = 60
 DEFAULT_OUTPUT_DIR = "/home/video/SafetyVideo"
-DEFAULT_WIFI_SSID = "SafeRideNetwork"
+DEFAULT_WIFI_SSID = "SafeRide"
 DEFAULT_SERVER_HOSTNAME = "saferide.local"
 
 
@@ -32,7 +32,7 @@ def getDistance(val):
 def threshholdIter(values, threshhold, operation=lambda x: x):
     for val in values:
         value = operation(val)
-        yield (value < threshhold)
+        yield 0 if (value < threshhold) else 1
 
 
 def runIter(values, func, *args, **kwargs):
