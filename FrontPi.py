@@ -1,5 +1,7 @@
+# FrontPi.py
+# A part of SafeRide
+# This file is written for the recording unit of SafeRide
 import argparse
-import datetime
 import signal
 import subprocess
 import time
@@ -13,6 +15,7 @@ DEFAULT_PASS_TIME = 60
 DEFAULT_OUTPUT_DIR = "/home/video/SafetyVideo"
 DEFAULT_WIFI_SSID = "SafeRide"
 DEFAULT_SERVER_HOSTNAME = "saferide.local"
+DEFAULT_SAVE_DIR = "/home/pi/Video"
 
 
 class LoopExit(Exception):
@@ -23,65 +26,70 @@ def exitLoop():
     raise LoopExit()
 
 
-def finishRide(args):
-    args.finish_output.on()
-    time.sleep(0.01)
-    args.finish_output.off()
-    subprocess.run("wifi", "connect", "--ad-hoc", args.ssid)  # Connect to WiFi
-    subprocess.run(
-        "scp", "-r", "/home/pi/Video",
-        "video@{}:{}/FrontPi".format(args.server, args.output_dir),
-        shell=True)  # Copy video over to a unique filename
-    subprocess.run("rm -rf /home/pi/Video", shell=True)
-    subprocess.run("mkdir -p /home/pi/Video", shell=True)
-    requests.get("{}/rideDone".format(args.server))
-    subprocess.run("poweroff")  # Shutdown
+class FrontPi:
+    def __init__(self, args):
+        self.args = args
+        self.flag_button = gpiozero.Button(3)
+        self.ride_button = gpiozero.Button(4)
+        self.pass_button = gpiozero.Button(21)
+        self.ride_button.when_pressed = lambda: self.startRide()
+
+    def finishRide(self):
+        subprocess.run(("wifi", "connect", "--ad-hoc"), self.args.ssid)  # Connect to WiFi
+        # Copy video over to a unique filename
+        try:
+            subprocess.run(
+                ("scp", "-r", self.args.save_dir,
+                 "video@{}:{}/FrontPi".format(self.args.server, self.args.output_dir)), shell=True, check=True)
+        except:
+            pass
+        else:
+            subprocess.run(("rm -rf ", self.args.save_dir), shell=True)
+            subprocess.run(("mkdir -p", self.args.save_dir), shell=True)
+        requests.get("{}/rideDone".format(self.args.server))  # Tell server to analyse video.
+        subprocess.run(("poweroff",))  # Shutdown
+
+    def onPass(self):
+        self.stream.clear()
+        self.camera.wait_recording(self.args.pass_length)
+        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+
+    def onFlag(self):
+        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length, first_frame=picamera.PiVideoFrameType.frame)
+
+    def startRide(self):
+        self.camera = picamera.PiCamera(sensor_mode=2)
+        self.stream = picamera.PiCameraCircularIO(self.camera,
+                                                  seconds=max(self.args.flag_length, self.args.pass_length))
+        self.camera.start_recording(self.stream, format="h264")
+        self.ride_button.when_pressed = exitLoop
+        self.pass_button.when_pressed = lambda: self.onPass()
+        self.flag_button.when_pressed = lambda: self.onFlag()
+        try:
+            while True:
+                self.camera.wait_recording(1)
+        except LoopExit:
+            pass
+        finally:
+            self.camera.stop_recording()
+            self.camera.close()
+            self.ride_button.when_pressed = lambda: self.startRide()
+            self.flag_button.when_pressed = lambda: self.finishRide()
+
+    def get_path(self):
+        self.args.save_dir + "/{}.mp4".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
 
 
-def passed(args):
-    args.stream.clear()
-    args.camera.wait_recording(args.pass_length)
-    args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.pass_length, first_frame=picamera.PiVideoFrameType.frame, format='h264')
-
-
-def flag(args):
-    args.flag_signal.blink(on_time=0.1, background=True, n=1)
-    args.stream.copy_to("/home/pi/Video/{}.mp4".format(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')),
-                        seconds=args.flag_length, first_frame=picamera.PiVideoFrameType.frame, format='h264')
-
-
-def ride(args):
-    args.camera = picamera.PiCamera(sensor_mode=2)
-    args.stream = picamera.PiCameraCircularIO(args.camera, seconds=max(args.flag_length, args.pass_length))
-    args.camera.start_recording(args.stream, "mp4")
-    args.ride_button.when_pressed = exitLoop
-    try:
-        while True:
-            args.camera.wait_recording(1)
-    finally:
-        args.camera.stop_recording()
-        args.camera.close()
-        args.ride_button.when_pressed = lambda: ride(args)
-        args.flag_button.when_pressed = lambda: finishRide(args)
-
-
-def main():
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--flag-length", default=DEFAULT_FLAG_TIME)
     parser.add_argument("-p", "--pass-length", default=DEFAULT_PASS_TIME)
     parser.add_argument("-o", "--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("-n", "--network", default=DEFAULT_WIFI_SSID)
     parser.add_argument("-s", "--server", default=DEFAULT_SERVER_HOSTNAME)
+    parser.add_argument("-d", "--save-dir", default=DEFAULT_SAVE_DIR)
 
     args = parser.parse_args()
 
-    args.flag_button = gpiozero.Button(3)
-    args.ride_button = gpiozero.Button(4)
-    args.pass_button = gpiozero.Button(21)
-    args.ride_button.when_pressed = lambda: ride(args)
-
-
-if __name__ == "__main__":
-    main()
+    pi = FrontPi(args)
     signal.pause()
