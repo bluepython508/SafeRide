@@ -42,15 +42,14 @@ def main():
         mainshelf['rides'] = {}
     if now.year not in mainshelf['rides']:
         mainshelf['rides'][now.year] = {now.month: [ride_data]}
-    elif now.month not in mainshelf['rides'][now.year]:
-        mainshelf['rides'][now.year][now.month] = [ride_data]
+    elif now.strftime('%b') not in mainshelf['rides'][now.year]:
+        mainshelf['rides'][now.year][now.strftime('%b')] = [ride_data]
     else:
-        mainshelf['rides'][now.year][now.month].append(ride_data)
+        mainshelf['rides'][now.year][now.strftime('%b')].append(ride_data)
     mainshelf.sync()
     mainshelf.close()
     shelf['incidents'] = {}
-    if exists('/mnt/latest'):
-        unlink('/mnt/latest')
+    unlink('/mnt/latest')
     symlink(ride, '/mnt/latest')
     alpr = Alpr('eu', '/etc/openalpr/openalpr.conf', '/usr/share/openalpr/runtime_data')
     if not alpr.is_loaded():
@@ -58,27 +57,30 @@ def main():
     videos = listdir('/home/video/SafetyVideo/SidePi')
     chdir('/home/video/SafetyVideo/SidePi')
     for video in videos:
-        with closing(VideoSequence(video)) as sequence:
-            oldlicense = None
-            for frame in sequence:
+        try:
+            with closing(VideoSequence(video)) as sequence:
+                oldlicense = None
+                for frame in sequence:
 
-                try:
-                    plate = alpr.recognise_ndarray(frame.to_array())['results'][0]['candidates']['plate']
-                except:
-                    plate = ''
-                if not plate == oldlicense:
-                    shelf['incidents'][video.replace('.mp4', '')] = \
-                        {'page': ride.replace('/mnt', '/incidents') + video.replace('.mp4', ''), 'plate': plate}
-                    break
-                oldlicense = plate
+                    try:
+                        plate = alpr.recognise_ndarray(frame.to_array())['results'][0]['candidates']['plate']
+                    except:
+                        plate = ''
+                    if not plate == oldlicense:
+                        shelf['incidents'][video.replace('.mp4', '')] = \
+                            {'page': ride.replace('/mnt', '/incidents') + video.replace('.mp4', ''), 'plate': plate}
+                        break
+                    oldlicense = plate
+        except:
+            pass
 
     shelf.sync()
     shelf.close()
     for video in [x for x in listdir('/mnt/latest') if 'data' not in x]:
         chdir('/mnt/latest/{}'.format(video))
         for side in ('SidePi',):
-            run('ffmpeg -i {}.mp4 {}.ogg'.format(side, side))
-            run('ffmpeg -i {}.mp4 {}.webm'.format(side, side))
+            run('ffmpeg -i {}.mp4 {}.ogg'.format(side, side), shell=True)
+            run('ffmpeg -i {}.mp4 {}.webm'.format(side, side), shell=True)
 
 
 if __name__ == "__main__":
