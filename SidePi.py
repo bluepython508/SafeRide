@@ -9,6 +9,7 @@ import time
 
 import gpiozero
 import picamera
+import requests
 
 DEFAULT_FLAG_TIME = 120
 DEFAULT_PASS_TIME = 60
@@ -74,6 +75,7 @@ class SidePi:
         self.flag_signal.on()
         time.sleep(0.01)
         self.flag_signal.off()
+        requests.get('{}/rideDone'.format(self.args.server))
         subprocess.run(("poweroff",))  # Shutdown
 
     def onPass(self):
