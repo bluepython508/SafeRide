@@ -29,10 +29,10 @@ def ordinal_number(number):
 def main():
     ride = datetime.datetime.now().strftime('/mnt/%Y/%m/%d-%H/')
     makedirs(ride, exist_ok=True)
-    all_videos = listdir('/home/video/SafetyVideo/FrontPi')
+    all_videos = listdir('/home/video/SafetyVideo/SidePi')
     for video in all_videos:
         makedirs(ride + video.replace('.mp4', ''), exist_ok=True)
-        copy('/home/video/SafetyVideo/FrontPi/' + video, ride + video.replace('.mp4', '/') + 'FrontPi.mp4')
+        # copy('/home/video/SafetyVideo/FrontPi/' + video, ride + video.replace('.mp4', '/') + 'FrontPi.mp4')
         copy('/home/video/SafetyVideo/SidePi/' + video, ride + video.replace('.mp4', '/') + 'SidePi.mp4')
     shelf = shelve.open(ride + 'data', writeback=True)
     mainshelf = shelve.open('/mnt/data', writeback=True)
@@ -55,8 +55,8 @@ def main():
     alpr = Alpr('eu', '/etc/openalpr/openalpr.conf', '/usr/share/openalpr/runtime_data')
     if not alpr.is_loaded():
         raise AlprError('Couldn\'t load OpenALPR.')
-    videos = listdir('/home/video/SafetyVideo/FrontPi')
-    chdir('/home/video/SafetyVideo/FrontPi')
+    videos = listdir('/home/video/SafetyVideo/SidePi')
+    chdir('/home/video/SafetyVideo/SidePi')
     for video in videos:
         with closing(VideoSequence(video)) as sequence:
             oldlicense = None
@@ -76,7 +76,7 @@ def main():
     shelf.close()
     for video in [x for x in listdir('/mnt/latest') if 'data' not in x]:
         chdir('/mnt/latest/{}'.format(video))
-        for side in ('SidePi', 'FrontPi'):
+        for side in ('SidePi',):
             run('ffmpeg -i {}.mp4 {}.ogg'.format(side, side))
             run('ffmpeg -i {}.mp4 {}.webm'.format(side, side))
 

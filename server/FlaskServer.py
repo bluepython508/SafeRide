@@ -28,6 +28,9 @@ def get_basic_dict():
 
 @app.route('/static/<filename>')
 def files(filename):
+    if '.js' in filename:
+        with open('static/%s' % filename, 'rb') as file:
+            return Response(file.read(), mimetype='text/javascript')
     with open('static/%s' % filename, 'rb') as file:
         return file.read()
 
