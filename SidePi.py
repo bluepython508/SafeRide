@@ -2,10 +2,10 @@
 # A part of SafeRide
 # This file is written for the recording unit of SafeRide
 import argparse
-import signal
 import subprocess
 import threading
 import time
+import os
 
 import gpiozero
 import picamera
@@ -58,22 +58,25 @@ class SidePi:
 
     def finishRide(self):
         print('Finished')
-        subprocess.run(("wifi", "connect", "--ad-hoc", self.args.network))  # Connect to WiFi
+        #subprocess.run(("wifi", "connect", "--ad-hoc", self.args.network))  # Connect to WiFi
+        subprocess.run(('ifup', 'wlan0'))
         # Copy video over to a unique filename
         try:
+            print(' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))))
             subprocess.run(
-                ("scp", "-r", self.args.save_dir,
-                 "video@{}:{}/SidePi".format(self.args.server, self.args.output_dir)), shell=True, check=True)
+                 (' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))),), shell=True, check=True)
         except:
             pass
         else:
-            subprocess.run(("rm -rf ", self.args.save_dir), shell=True)
-            subprocess.run(("mkdir -p", self.args.save_dir), shell=True)
-        self.flag_signal.on()
-        time.sleep(0.01)
-        self.flag_signal.off()
-        requests.get('http://{}/rideDone'.format(self.args.server))
-        subprocess.run(("poweroff",))  # Shutdown
+            subprocess.run(("rm -rf", self.args.save_dir), shell=True)
+            print(' '.join(("mkdir", self.args.save_dir)))
+            subprocess.run(' '.join(("mkdir -p", self.args.save_dir)), shell=True)
+            self.flag_signal.on()
+            time.sleep(0.01)
+            self.flag_signal.off()
+            requests.get('http://{}/rideDone'.format(self.args.server))
+            subprocess.run("kill -9 {}".format(os.getpid()), shell=True)
+            #subprocess.run(("poweroff",))  # Shutdown
 
     def onPass(self):
         print('Unsafe pass')
@@ -128,6 +131,7 @@ if __name__ == "__main__":
     
     
     args = parser.parse_args()
-    pi = SidePi(args)
-    print(pi.get_path())
-    signal.pause()
+    try:
+        pi = SidePi(args)
+    except BaseException:
+        pass
