@@ -33,14 +33,14 @@ div {
 {% block content %}
 <h3>{{ plate }}</h3>
 <h4>{{ videotime }}</h4>
-
+<!--
 <video controls preload="metadata" class="front">
 	<source src="{{ video['front'] }}.mp4" type="video/mp4">
 	<source src="{{ video['front'] }}.webm" type="video/webm">
 	<source src="{{ video['front'] }}.ogg" type="video/ogg">
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
-
+-->
 
 <video controls preload="metadata" class="side">
 	<source src="{{ video['side'] }}.mp4" type="video/mp4">
@@ -49,8 +49,8 @@ div {
     I'm sorry, but your browser does not support embedded video. You can download it below, though.
 </video>
 
-<br><p><a href="{{video['front'].mp4}}" class="link front">Download front video</a><br>
-	<a href="{{video['side'].mp4}}" class="link side">Download side video</a></p>
+<br><p><!--<a href="{{video['front'].mp4}}" class="link front">Download front video</a><br>-->
+	<a href="{{video['side'].mp4}}" class="link side">Download video</a></p>
 
 {% endblock content %}
 {% block footer %}
