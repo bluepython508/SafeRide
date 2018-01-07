@@ -131,7 +131,8 @@ if __name__ == "__main__":
     
     
     args = parser.parse_args()
-    subprocess.run("rm -rf {}".format(args.save_dir), shell=True
+    subprocess.run("rm -rf {}".format(args.save_dir), shell=True)
+    subprocess.run("mkdir -p {}".format(args.save_dir), shell=True)
     try:
         pi = SidePi(args)
     except BaseException:
