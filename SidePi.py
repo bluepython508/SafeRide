@@ -62,9 +62,9 @@ class SidePi:
         subprocess.run(('ifup', 'wlan0'))
         # Copy video over to a unique filename
         try:
-            print(' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))))
+            print(' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi".format(self.args.server, self.args.output_dir))))
             subprocess.run(
-                 (' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))),), shell=True, check=True)
+                 (' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi".format(self.args.server, self.args.output_dir))),), shell=True, check=True)
         except:
             pass
         else:
@@ -131,6 +131,7 @@ if __name__ == "__main__":
     
     
     args = parser.parse_args()
+    subprocess.run("rm -rf {}".format(args.save_dir), shell=True
     try:
         pi = SidePi(args)
     except BaseException:
