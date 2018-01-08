@@ -83,14 +83,14 @@ class SidePi:
         self.stream.clear()
         self.camera.wait_recording(self.args.pass_length)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length, first_frame=None)
 
     def onFlag(self):
         print('Flag')
         self.recording_led.blink(background=True, n=1)
         self.flag_signal.blink(on_time=0.1, background=True, n=1)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length, first_frame=picamera.PiVideoFrameType.frame)
+        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length, first_frame=None)
 
     def startRide(self):
         print('Starting ride')
