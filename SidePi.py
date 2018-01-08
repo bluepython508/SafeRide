@@ -53,6 +53,7 @@ class SidePi:
         self.ride_signal = gpiozero.LED(5)
         self.range_sensor = gpiozero.MCP3008(select_pin=args.chip_select, mosi_pin=args.mosi, miso_pin=args.miso, clock_pin=args.clk)
         self.recording_led = gpiozero.LED(20)
+        self.recording_led.blink(n=1, background=True)
         self.ride_button.wait_for_press()
         self.startRide()
 
