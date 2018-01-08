@@ -2,10 +2,9 @@
 # A part of SafeRide
 # This file is written for the recording unit of SafeRide
 import argparse
-import subprocess
-import threading
-import time
 import os
+import subprocess
+import time
 
 import gpiozero
 import picamera
@@ -99,7 +98,7 @@ class SidePi:
         self.camera = picamera.PiCamera(sensor_mode=2)
         self.stream = picamera.PiCameraCircularIO(self.camera,
                                                   seconds=max(self.args.flag_length, self.args.pass_length))
-        self.camera.start_recording(self.stream, format="h264")
+        self.camera.start_recording(self.stream, format="mjpeg")
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
         self.ride_button.wait_for_release()
