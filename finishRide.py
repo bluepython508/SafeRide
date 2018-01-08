@@ -2,7 +2,6 @@ import datetime
 import shelve
 from contextlib import closing
 from os import listdir, makedirs, symlink, unlink, chdir
-from os.path import exists
 from shutil import copy
 from subprocess import run
 
@@ -79,8 +78,9 @@ def main():
     for video in [x for x in listdir('/mnt/latest') if 'data' not in x]:
         chdir('/mnt/latest/{}'.format(video))
         for side in ('SidePi',):
-            run('ffmpeg -i {}.mp4 {}.ogg'.format(side, side), shell=True)
-            run('ffmpeg -i {}.mp4 {}.webm'.format(side, side), shell=True)
+            run('ffmpeg -i {}.h264 {}.ogg '.format(side, side), shell=True)
+            run('ffmpeg -i {}.h264 {}.webm'.format(side, side), shell=True)
+            run('ffmpeg -i {}.h264 {}.mp4 '.format(side, side), shell=True)
 
 
 if __name__ == "__main__":
