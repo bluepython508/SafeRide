@@ -72,7 +72,7 @@ def main():
                         break
                     oldlicense = plate
         except:
-            pass
+            shelf['incidents'][video.replace('.mp4', '')] = {'page': ride.replace('/mnt', '/incidents') + video.replace('.mp4', ''), 'plate': ''}
 
     shelf.sync()
     shelf.close()
