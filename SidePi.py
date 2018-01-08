@@ -11,7 +11,7 @@ import picamera
 import requests
 
 DEFAULT_FLAG_TIME = 120
-DEFAULT_PASS_TIME = 60
+DEFAULT_PASS_TIME = 30
 DEFAULT_OUTPUT_DIR = "/home/video/SafetyVideo"
 DEFAULT_WIFI_SSID = "SafeRide"
 DEFAULT_SERVER_HOSTNAME = "saferide.local"
