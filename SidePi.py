@@ -97,7 +97,7 @@ class SidePi:
         self.camera = picamera.PiCamera(sensor_mode=2)
         self.stream = picamera.PiCameraCircularIO(self.camera,
                                                   seconds=max(self.args.flag_length, self.args.pass_length))
-        self.camera.start_recording(self.stream, format="h264")
+        self.camera.start_recording(self.stream, format="mjpeg")
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
         self.ride_button.wait_for_release()
@@ -112,7 +112,7 @@ class SidePi:
         self.startRide()
 
     def get_path(self):
-        return self.args.save_dir + "/{}.h264".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
+        return self.args.save_dir + "/{}.mp4".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
     
     
 if __name__ == "__main__":
