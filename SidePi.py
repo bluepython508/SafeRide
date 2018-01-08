@@ -2,10 +2,9 @@
 # A part of SafeRide
 # This file is written for the recording unit of SafeRide
 import argparse
-import subprocess
-import threading
-import time
 import os
+import subprocess
+import time
 
 import gpiozero
 import picamera
@@ -113,7 +112,7 @@ class SidePi:
         self.startRide()
 
     def get_path(self):
-        return self.args.save_dir + "/{}.mp4".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
+        return self.args.save_dir + "/{}.h264".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
     
     
 if __name__ == "__main__":
