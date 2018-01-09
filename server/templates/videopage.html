@@ -43,11 +43,15 @@ div {
 -->
 
 <video controls preload="metadata" class="side">
-    <source src="{{ video['side'] }}.mp4" type="video/H264"><!--
+	<source src="{{ video['side'] }}.mp4" type="video/mp4"><!--
     <source src="{{ video['side'] }}.ogg" type="video/ogg">
     <source src="{{ video['side'] }}.webm" type="video/webm">
     -->
-    <p>I'm sorry, but your browser does not support embedded video. You can download it below, though.</p>
+	<script type="text/javascript">
+           QT_WriteOBJECT('{{ video['side'] }}.mp4' , '320', '240', '');
+
+
+	</script>
 </video>
 
 <br><p><!--<a href="{{video['front'].mp4}}" class="link front">Download front video</a><br>-->
