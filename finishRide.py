@@ -75,6 +75,7 @@ def main():
 
     shelf.sync()
     shelf.close()
+    run('rm /home/video/SafetyVideo/SidePi/*', shell=True)
     for video in [x for x in listdir('/mnt/latest') if 'data' not in x]:
         chdir('/mnt/latest/{}'.format(video))
         for side in ('SidePi',):
