@@ -98,7 +98,7 @@ class SidePi:
         self.camera = picamera.PiCamera(sensor_mode=2)
         self.stream = picamera.PiCameraCircularIO(self.camera,
                                                   seconds=max(self.args.flag_length, self.args.pass_length) + 1)
-        self.camera.start_recording(self.stream, 'h264')
+        self.camera.start_recording(self.stream, 'h264', profile='baseline')
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
         self.ride_button.wait_for_release()
