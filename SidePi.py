@@ -11,7 +11,7 @@ import picamera
 import requests
 
 DEFAULT_FLAG_TIME = 120
-DEFAULT_PASS_TIME = 60
+DEFAULT_PASS_TIME = 30
 DEFAULT_OUTPUT_DIR = "/home/video/SafetyVideo"
 DEFAULT_WIFI_SSID = "SafeRide"
 DEFAULT_SERVER_HOSTNAME = "saferide.local"
@@ -52,6 +52,7 @@ class SidePi:
         self.ride_signal = gpiozero.LED(5)
         self.range_sensor = gpiozero.MCP3008(select_pin=args.chip_select, mosi_pin=args.mosi, miso_pin=args.miso, clock_pin=args.clk)
         self.recording_led = gpiozero.LED(20)
+        self.recording_led.blink(n=1, background=True)
         self.ride_button.wait_for_press()
         self.startRide()
 
@@ -61,9 +62,9 @@ class SidePi:
         subprocess.run(('ifup', 'wlan0'))
         # Copy video over to a unique filename
         try:
-            print(' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))))
+            print(' '.join(("scp","-i /home/pi/.ssh/id_rsa", self.args.save_dir + "/*", "video@{}:{}/SidePi".format(self.args.server, self.args.output_dir))))
             subprocess.run(
-                 (' '.join(("scp","-i /home/pi/.ssh/id_rsa", "-r", self.args.save_dir + "/", "video@{}:{}/SidePi/".format(self.args.server, self.args.output_dir))),), shell=True, check=True)
+                 (' '.join(("scp","-i /home/pi/.ssh/id_rsa", self.args.save_dir + "/*", "video@{}:{}/SidePi".format(self.args.server, self.args.output_dir))),), shell=True, check=True)
         except:
             pass
         else:
@@ -83,21 +84,21 @@ class SidePi:
         self.stream.clear()
         self.camera.wait_recording(self.args.pass_length)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length, first_frame=picamera.PiVideoFrameType.frame)
+        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length)
 
     def onFlag(self):
         print('Flag')
         self.recording_led.blink(background=True, n=1)
         self.flag_signal.blink(on_time=0.1, background=True, n=1)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length, first_frame=picamera.PiVideoFrameType.frame)
+        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length)
 
     def startRide(self):
         print('Starting ride')
         self.camera = picamera.PiCamera(sensor_mode=2)
         self.stream = picamera.PiCameraCircularIO(self.camera,
-                                                  seconds=max(self.args.flag_length, self.args.pass_length))
-        self.camera.start_recording(self.stream, format="mjpeg")
+                                                  seconds=max(self.args.flag_length, self.args.pass_length) + 1)
+        self.camera.start_recording(self.stream, 'h264')
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
         self.ride_button.wait_for_release()
@@ -117,19 +118,21 @@ class SidePi:
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--flag-length", default=DEFAULT_FLAG_TIME)
-    parser.add_argument("-p", "--pass-length", default=DEFAULT_PASS_TIME)
+    parser.add_argument("-f", "--flag-length", default=DEFAULT_FLAG_TIME, type=int)
+    parser.add_argument("-p", "--pass-length", default=DEFAULT_PASS_TIME, type=int)
     parser.add_argument("-o", "--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("-n", "--network", default=DEFAULT_WIFI_SSID)
     parser.add_argument("-s", "--server", default=DEFAULT_SERVER_HOSTNAME)
     parser.add_argument("-d", "--save-dir", default=DEFAULT_SAVE_DIR)
-    parser.add_argument("--chip-select", default=DEFAULT_CHIP_SELECT)
-    parser.add_argument("--miso", default=DEFAULT_MISO)
-    parser.add_argument("--mosi", default=DEFAULT_MOSI)
-    parser.add_argument("--clk", default=DEFAULT_CLK)
+    parser.add_argument("--chip-select", default=DEFAULT_CHIP_SELECT, type=int)
+    parser.add_argument("--miso", default=DEFAULT_MISO, type=int)
+    parser.add_argument("--mosi", default=DEFAULT_MOSI, type=int)
+    parser.add_argument("--clk", default=DEFAULT_CLK, type=int)
     
     
     args = parser.parse_args()
+    subprocess.run("rm -rf {}".format(args.save_dir), shell=True)
+    subprocess.run("mkdir -p {}".format(args.save_dir), shell=True)
     try:
         pi = SidePi(args)
     except BaseException:
