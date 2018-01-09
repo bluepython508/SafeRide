@@ -84,21 +84,21 @@ class SidePi:
         self.stream.clear()
         self.camera.wait_recording(self.args.pass_length)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length, first_frame=None)
+        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length)
 
     def onFlag(self):
         print('Flag')
         self.recording_led.blink(background=True, n=1)
         self.flag_signal.blink(on_time=0.1, background=True, n=1)
         print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length, first_frame=None)
+        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length)
 
     def startRide(self):
         print('Starting ride')
         self.camera = picamera.PiCamera(sensor_mode=2)
         self.stream = picamera.PiCameraCircularIO(self.camera,
                                                   seconds=max(self.args.flag_length, self.args.pass_length) + 1)
-        self.camera.start_recording(self.stream, format='h264')
+        self.camera.start_recording(self.stream, 'h264')
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
         self.ride_button.wait_for_release()
