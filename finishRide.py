@@ -30,7 +30,7 @@ def main():
     makedirs(ride, exist_ok=True)
     all_videos = listdir('/home/video/SafetyVideo/SidePi')
     for video in all_videos:
-        makedirs(ride + video.replace('.mp4', ''), exist_ok=True)
+        makedirs(ride + video.replace('.h264', ''), exist_ok=True)
         # copy('/home/video/SafetyVideo/FrontPi/' + video, ride + video.replace('.mp4', '/') + 'FrontPi.mp4')
         copy('/home/video/SafetyVideo/SidePi/' + video, ride + video.replace('.h264', '/') + 'SidePi.h264')
     shelf = shelve.open(ride + 'data', writeback=True)
