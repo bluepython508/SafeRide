@@ -3,7 +3,7 @@ from os.path import realpath
 from shelve import open as shelf
 from subprocess import run
 
-from flask import Flask, render_template, redirect, Response, abort, send_file, request
+from flask import Flask, render_template, redirect, Response, send_file, request
 
 app = Flask(__name__)
 
@@ -92,7 +92,7 @@ def index():
 @app.route('/rideDone')
 def upload():
     run("python3 ../finishRide.py", shell=True)
-    abort(401)
+    return "<h1>Uploaded</h1>"
 
 
 @app.route('/main.html')
