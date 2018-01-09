@@ -118,16 +118,16 @@ class SidePi:
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--flag-length", default=DEFAULT_FLAG_TIME)
-    parser.add_argument("-p", "--pass-length", default=DEFAULT_PASS_TIME)
+    parser.add_argument("-f", "--flag-length", default=DEFAULT_FLAG_TIME, type=int)
+    parser.add_argument("-p", "--pass-length", default=DEFAULT_PASS_TIME, type=int)
     parser.add_argument("-o", "--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("-n", "--network", default=DEFAULT_WIFI_SSID)
     parser.add_argument("-s", "--server", default=DEFAULT_SERVER_HOSTNAME)
     parser.add_argument("-d", "--save-dir", default=DEFAULT_SAVE_DIR)
-    parser.add_argument("--chip-select", default=DEFAULT_CHIP_SELECT)
-    parser.add_argument("--miso", default=DEFAULT_MISO)
-    parser.add_argument("--mosi", default=DEFAULT_MOSI)
-    parser.add_argument("--clk", default=DEFAULT_CLK)
+    parser.add_argument("--chip-select", default=DEFAULT_CHIP_SELECT, type=int)
+    parser.add_argument("--miso", default=DEFAULT_MISO, type=int)
+    parser.add_argument("--mosi", default=DEFAULT_MOSI, type=int)
+    parser.add_argument("--clk", default=DEFAULT_CLK, type=int)
     
     
     args = parser.parse_args()
