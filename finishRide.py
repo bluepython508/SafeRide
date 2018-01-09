@@ -32,7 +32,7 @@ def main():
     for video in all_videos:
         makedirs(ride + video.replace('.mp4', ''), exist_ok=True)
         # copy('/home/video/SafetyVideo/FrontPi/' + video, ride + video.replace('.mp4', '/') + 'FrontPi.mp4')
-        copy('/home/video/SafetyVideo/SidePi/' + video, ride + video.replace('.mp4', '/') + 'SidePi.mp4')
+        copy('/home/video/SafetyVideo/SidePi/' + video, ride + video.replace('.h264', '/') + 'SidePi.h264')
     shelf = shelve.open(ride + 'data', writeback=True)
     mainshelf = shelve.open('/mnt/data', writeback=True)
     now = datetime.datetime.now()
@@ -79,6 +79,7 @@ def main():
     for video in [x for x in listdir('/mnt/latest') if 'data' not in x]:
         chdir('/mnt/latest/{}'.format(video))
         for side in ('SidePi',):
+            run('ffmpeg -i {}.h264 -vcodec copy {}.mp4 '.format(side, side), shell=True)
             run('ffmpeg -i {}.mp4 {}.ogg '.format(side, side), shell=True)
             run('ffmpeg -i {}.mp4 {}.webm'.format(side, side), shell=True)
 

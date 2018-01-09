@@ -113,7 +113,7 @@ class SidePi:
         self.startRide()
 
     def get_path(self):
-        return self.args.save_dir + "/{}.mp4".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
+        return self.args.save_dir + "/{}.h264".format(time.strftime('%Y-%m-%dT%H:%M:%S'))
     
     
 if __name__ == "__main__":
