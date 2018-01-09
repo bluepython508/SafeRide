@@ -66,12 +66,13 @@ def main():
                     except:
                         plate = ''
                     if not plate == oldlicense:
-                        shelf['incidents'][video.replace('.mp4', '')] = \
-                            {'page': ride.replace('/mnt', '/incidents') + video.replace('.mp4', ''), 'plate': plate}
+                        shelf['incidents'][video.replace('.h264', '')] = \
+                            {'page': ride.replace('/mnt', '/incidents') + video.replace('.h264', ''), 'plate': plate}
                         break
                     oldlicense = plate
         except:
-            shelf['incidents'][video.replace('.mp4', '')] = {'page': ride.replace('/mnt', '/incidents') + video.replace('.mp4', ''), 'plate': ''}
+            shelf['incidents'][video.replace('.h264', '')] = {
+                'page': ride.replace('/mnt', '/incidents') + video.replace('.h264', ''), 'plate': ''}
 
     shelf.sync()
     shelf.close()
