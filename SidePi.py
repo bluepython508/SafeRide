@@ -28,8 +28,11 @@ def threshholdIter(values, threshhold, operation=lambda x: x):
     for val in values:
         value = operation(val)
         #print(val)
-        #print(value)
-        yield 0 if (value > threshhold) else 1
+        if (value > threshhold):
+                yield 0
+        else:
+                print("Detected disance: %s" % value)
+                yield 1
 
 
 def runIter(values, func, *args, **kwargs):
@@ -53,6 +56,7 @@ class SidePi:
         self.range_sensor = gpiozero.MCP3008(select_pin=args.chip_select, mosi_pin=args.mosi, miso_pin=args.miso, clock_pin=args.clk)
         self.recording_led = gpiozero.LED(20)
         self.recording_led.blink(n=1, background=True)
+       	print("Ready...  Press start ride")
         self.ride_button.wait_for_press()
         self.startRide()
 
@@ -81,26 +85,32 @@ class SidePi:
     def onPass(self):
         print('Unsafe pass')
         self.recording_led.blink(on_time=self.args.pass_length, off_time=0, n=1, background=True)
-        self.stream.clear()
-        self.camera.wait_recording(self.args.pass_length)
-        print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.pass_length)
+        self.camera.wait_recording(self.args.pass_length - 2)
+        path = self.get_path()
+        print(path)
+        self.stream.copy_to(path, seconds=self.args.pass_length)
+        print("File Size: %s" % os.path.getsize(path))
 
     def onFlag(self):
         print('Flag')
         self.recording_led.blink(background=True, n=1)
         self.flag_signal.blink(on_time=0.1, background=True, n=1)
-        print(self.get_path())
-        self.stream.copy_to(self.get_path(), seconds=self.args.flag_length)
+        path = self.get_path()
+        print(path)
+        self.stream.copy_to(path, seconds=self.args.flag_length)
+        print("File Size: %s" % os.path.getsize(path))
 
     def startRide(self):
         print('Starting ride')
-        self.camera = picamera.PiCamera(sensor_mode=2)
+        self.camera = picamera.PiCamera()
+        print("Allocating buffer: flag length: %s, pass length: %s: " % (
+               self.args.flag_length, self.args.pass_length))
         self.stream = picamera.PiCameraCircularIO(self.camera,
                                                   seconds=max(self.args.flag_length, self.args.pass_length) + 1)
         self.camera.start_recording(self.stream, 'h264')
         self.pass_signal.source = runIter(threshholdIter(self.range_sensor.values, 150, getDistance), self.onPass)
         self.flag_button.when_activated = lambda: self.onFlag()
+        print("Ready to ride")
         self.ride_button.wait_for_release()
         self.ride_button.wait_for_press()
         self.camera.stop_recording()
